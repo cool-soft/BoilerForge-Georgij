@@ -1,4 +1,3 @@
-
 import datetime
 
 BOILER_TEMP_SMOOTH_SIZE = 100
@@ -20,11 +19,10 @@ PREPROCESSED_BOILER_DATASET_PATH = "storage\\datasets\\preprocessed\\boiler_t.pi
 
 SRC_WEATHER_DATASET_PATH = "storage\\datasets\\src\\weather_t.json"
 PREPROCESSED_WEATHER_DATASET_PATH = "storage\\datasets\\preprocessed\\weather_t.pickle"
-TEMP_GRAPH_PATH = "storage\\datasets\\t_graph.csv"
 
 HOMES_DELTAS_PATH = "storage\\datasets\\homes_time_delta.csv"
-
 TEMP_CORRELATION_TABLE_PATH = "storage\\datasets\\optimized_t_table.pickle"
-PREDICTED_BOILER_TEMP_PATH = "storage\\datasets\\predicted_boiler_t.pickle"
 
+TEMP_GRAPH_PATH = "storage\\datasets\\t_graph.csv"
 HOME_MIN_TEMP_COEFFICIENT = 0.97
+PREDICTED_BOILER_TEMP_PATH = "storage\\datasets\\predicted_boiler_t.pickle"
