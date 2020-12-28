@@ -13,7 +13,7 @@ from config import (
     END_DATE,
     TEMP_CORRELATION_TABLE_PATH
 )
-from utils.preprocess_utils import filter_by_timestamp
+from utils.preprocessing import filter_by_timestamp
 
 
 def load_weather_dataset(

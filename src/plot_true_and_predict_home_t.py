@@ -13,7 +13,7 @@ from utils.home_deltas_utils import get_timedelta_by_home_name
 from utils.io_utils import load_dataset, load_saved_model
 from utils.metrics import relative_error
 from utils.predict_utils import plot_real_and_predicted
-from utils.preprocess_utils import average_values
+from utils.preprocessing import average_values
 
 if __name__ == '__main__':
     min_date = datetime.datetime(2019, 2, 1, 0, 0, 0)

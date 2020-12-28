@@ -15,7 +15,7 @@ from config import (
 from utils.dataset_utils import create_sequences_smooth_delta
 from utils.io_utils import load_dataset, get_model_save_name
 from utils.metrics import relative_error
-from utils.preprocess_utils import filter_by_timestamp
+from utils.preprocessing import filter_by_timestamp
 
 
 # noinspection PyShadowingNames

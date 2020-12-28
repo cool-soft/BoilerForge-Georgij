@@ -1,13 +1,17 @@
 import datetime
 
+from dateutil.tz import gettz
+
 BOILER_TEMP_SMOOTH_SIZE = 100
 
-START_DATE = datetime.datetime(2018, 12, 1, 0, 0, 0)
-END_DATE = datetime.datetime(2019, 6, 1, 0, 0, 0)
+START_DATE = datetime.datetime(2018, 12, 1, 0, 0, 0, tzinfo=gettz("Asia/Yekaterinburg"))
+END_DATE = datetime.datetime(2019, 6, 1, 0, 0, 0, tzinfo=gettz("Asia/Yekaterinburg"))
 
 MODELS_DIR = "saved_models"
 HISTORY_FILENAME = "history"
 MODEL_FILE_SUFFIX = "_model"
+
+WEATHER_DATA_TIMEZONE = "Asia/Yekaterinburg"
 
 PREPROCESSED_DATASET_FILENAME_SUFFIX = ".pickle"
 

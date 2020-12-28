@@ -10,7 +10,7 @@ from config import (
     PREPROCESSED_BOILER_DATASET_PATH
 )
 from utils.io_utils import load_dataset
-from utils.preprocess_utils import average_values
+from utils.preprocessing import average_values
 
 if __name__ == '__main__':
     min_date = datetime.datetime(2019, 2, 1, 0, 0, 0)

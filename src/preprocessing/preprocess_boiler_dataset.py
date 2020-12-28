@@ -7,7 +7,7 @@ from config import (
     START_DATE,
     END_DATE
 )
-from utils.preprocess_utils import prepare_data
+from utils.preprocessing import prepare_data
 
 
 # noinspection PyShadowingNames
