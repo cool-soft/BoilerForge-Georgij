@@ -1,5 +1,5 @@
 from utils.io_utils import load_model_metrics
-from config import DEFAULT_MODELS_DIR
+from config import MODELS_DIR
 import os
 
 
@@ -7,7 +7,7 @@ if __name__ == '__main__':
     # multi_model_name = "multi_lstm_2020-09-12-09.03.41"
     multi_model_name = "multi_lstm_2020-09-14-21.22.12"
 
-    multi_model_dir = f"{DEFAULT_MODELS_DIR}\\{multi_model_name}"
+    multi_model_dir = f"{MODELS_DIR}\\{multi_model_name}"
     for model_name in os.listdir(multi_model_dir):
         model_metrics = load_model_metrics(model_name, models_dir=multi_model_dir)
         model_metrics_mins = []

@@ -1,6 +1,6 @@
 
 import numpy as np
-from config import TIME_STEP
+from time_tick import TIME_TICK
 
 
 def create_sequences(x, y, window_size, delta=0):
@@ -67,7 +67,7 @@ def normalize_arrays(*datasets):
     return normalized_datasets
 
 
-def create_time_series(min_date, max_date, time_step=TIME_STEP):
+def create_time_series(min_date, max_date, time_step=TIME_TICK):
     date = min_date
     time_series = []
     while date <= max_date:

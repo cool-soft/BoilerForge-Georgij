@@ -7,12 +7,13 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from config import (
-    DEFAULT_MODELS_DIR,
-    DEFAULT_PREDICTED_BOILER_T_PATH,
-    DEFAULT_HOMES_DELTAS_PATH,
-    DEFAULT_PREPROCESSED_WEATHER_DATASET_PATH,
-    TIME_STEP, TIMESTAMP_COLUMN_NAME
+    MODELS_DIR,
+    PREDICTED_BOILER_TEMP_PATH,
+    HOMES_DELTAS_PATH,
+    PREPROCESSED_WEATHER_DATASET_PATH
 )
+from time_tick import TIME_TICK
+from column_names import SOFT_M_TIMESTAMP
 from utils.dataset_utils import create_time_series
 from utils.home_deltas_utils import load_homes_time_deltas
 from utils.io_utils import load_saved_model, load_dataframe, load_dataset
@@ -27,8 +28,8 @@ class HomesTCalc:
         self._smooth_size = 2
         self._window_size = 5
         self._parent_model_name = None
-        self._predicted_boiler_t_path = DEFAULT_PREDICTED_BOILER_T_PATH
-        self._home_time_deltas_path = DEFAULT_HOMES_DELTAS_PATH
+        self._predicted_boiler_t_path = PREDICTED_BOILER_TEMP_PATH
+        self._home_time_deltas_path = HOMES_DELTAS_PATH
         self._custom_models_objects = {}
 
         self._homes_time_deltas = None
@@ -63,7 +64,7 @@ class HomesTCalc:
     def _load_submodels(self):
         print("Loading submodels")
 
-        parent_model_dir = f"{DEFAULT_MODELS_DIR}\\{self._parent_model_name}"
+        parent_model_dir = f"{MODELS_DIR}\\{self._parent_model_name}"
         submodels = {}
         for submodel_name in os.listdir(parent_model_dir):
             model = load_saved_model(
@@ -129,16 +130,16 @@ if __name__ == '__main__':
         time_delta = row["time_delta"]
 
         home_t = calculated_t_df[home_name].to_numpy()
-        additional_dates = create_time_series(boiler_end_date + TIME_STEP, boiler_end_date + (TIME_STEP * time_delta))
+        additional_dates = create_time_series(boiler_end_date + TIME_TICK, boiler_end_date + (TIME_TICK * time_delta))
         home_dates = dates[time_delta + start_idx_delta:] + additional_dates
         home_dates = home_dates[:len(home_t)]
 
         ax.plot(home_dates, home_t, label=home_name)
 
-    weather_start_date = boiler_start_date + ((homes_time_deltas["time_delta"].min() + start_idx_delta) * TIME_STEP)
-    weather_end_date = boiler_end_date + ((homes_time_deltas["time_delta"].max() + smooth_size) * TIME_STEP)
+    weather_start_date = boiler_start_date + ((homes_time_deltas["time_delta"].min() + start_idx_delta) * TIME_TICK)
+    weather_end_date = boiler_end_date + ((homes_time_deltas["time_delta"].max() + smooth_size) * TIME_TICK)
     weather_df = load_dataset(
-        DEFAULT_PREPROCESSED_WEATHER_DATASET_PATH,
+        PREPROCESSED_WEATHER_DATASET_PATH,
         weather_start_date,
         weather_end_date
     )
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     need_t = calc_need_t_in_home(weather_t)
 
     ax.plot(
-        weather_df[TIMESTAMP_COLUMN_NAME],
+        weather_df[SOFT_M_TIMESTAMP],
         need_t,
         label="Требования температурного графика",
         linestyle="-",

@@ -5,11 +5,11 @@ import os
 import pandas as pd
 
 from config import (
-    DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR,
-    DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX,
-    DEFAULT_SRC_HOMES_DATASETS_DIR,
-    DEFAULT_START_DATE,
-    DEFAULT_END_DATE
+    PREPROCESSED_HOMES_DATASETS_DIR,
+    PREPROCESSED_DATASET_FILENAME_SUFFIX,
+    SRC_HOMES_DATASETS_DIR,
+    START_DATE,
+    END_DATE
 )
 
 from utils.preprocess_utils import prepare_data
@@ -47,7 +47,7 @@ def prepare_one_home_data(target_datasets_dir, dataset_name, src_file_path, args
     df = pd.read_csv(src_file_path, sep=';', low_memory=False)
     df = prepare_data(df, *args, **kwargs)
 
-    dst_filename = f"{target_datasets_dir}\\{dataset_name}{DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX}"
+    dst_filename = f"{target_datasets_dir}\\{dataset_name}{PREPROCESSED_DATASET_FILENAME_SUFFIX}"
     print("Saving to {}".format(dst_filename))
     df.to_pickle(dst_filename)
 
@@ -56,9 +56,9 @@ if __name__ == '__main__':
     disabled_t_threshold = 0  # 35
 
     prepare_homes_data(
-        DEFAULT_SRC_HOMES_DATASETS_DIR,
-        DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR,
-        DEFAULT_START_DATE,
-        DEFAULT_END_DATE,
+        SRC_HOMES_DATASETS_DIR,
+        PREPROCESSED_HOMES_DATASETS_DIR,
+        START_DATE,
+        END_DATE,
         disabled_t_threshold
     )

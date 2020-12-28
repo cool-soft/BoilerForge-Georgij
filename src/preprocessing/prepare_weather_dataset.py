@@ -4,10 +4,10 @@ import os
 import pandas as pd
 
 from config import (
-    DEFAULT_SRC_WEATHER_DATASET_PATH,
-    DEFAULT_PREPROCESSED_WEATHER_DATASET_PATH,
-    DEFAULT_START_DATE,
-    DEFAULT_END_DATE
+    SRC_WEATHER_DATASET_PATH,
+    PREPROCESSED_WEATHER_DATASET_PATH,
+    START_DATE,
+    END_DATE
 )
 
 from utils.preprocess_utils import (
@@ -38,8 +38,8 @@ def process_weather_t(src_weather_path, dst_weather_file, min_date, max_date):
 
 if __name__ == '__main__':
     process_weather_t(
-        DEFAULT_SRC_WEATHER_DATASET_PATH,
-        DEFAULT_PREPROCESSED_WEATHER_DATASET_PATH,
-        DEFAULT_START_DATE,
-        DEFAULT_END_DATE
+        SRC_WEATHER_DATASET_PATH,
+        PREPROCESSED_WEATHER_DATASET_PATH,
+        START_DATE,
+        END_DATE
     )

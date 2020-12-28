@@ -5,7 +5,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from config import DEFAULT_OPTIMIZED_T_TABLE_PATH, DEFAULT_MODELS_DIR
+from config import TEMP_CORRELATION_TABLE_PATH, MODELS_DIR
 from utils.metrics import relative_error
 from utils.io_utils import load_saved_model
 
@@ -55,7 +55,7 @@ class TOptimizer:
     def _load_submodels(self):
         print("Loading submodels")
 
-        parent_model_dir = f"{DEFAULT_MODELS_DIR}\\{self._parent_model_name}"
+        parent_model_dir = f"{MODELS_DIR}\\{self._parent_model_name}"
         submodels = {}
         for submodel_name in os.listdir(parent_model_dir):
             model = load_saved_model(
@@ -111,5 +111,5 @@ if __name__ == '__main__':
     optimizer.start_optimization()
 
     optimized_t_df = optimizer.get_optimized_t_df()
-    print(f"Saving optimized t table to {DEFAULT_OPTIMIZED_T_TABLE_PATH}")
-    optimized_t_df.to_pickle(DEFAULT_OPTIMIZED_T_TABLE_PATH)
+    print(f"Saving optimized t table to {TEMP_CORRELATION_TABLE_PATH}")
+    optimized_t_df.to_pickle(TEMP_CORRELATION_TABLE_PATH)

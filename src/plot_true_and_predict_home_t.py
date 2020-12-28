@@ -4,9 +4,9 @@ import datetime
 from pandas.plotting import register_matplotlib_converters
 
 from config import (
-    DEFAULT_PREPROCESSED_BOILER_DATASET_PATH,
-    DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR,
-    DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX
+    PREPROCESSED_BOILER_DATASET_PATH,
+    PREPROCESSED_HOMES_DATASETS_DIR,
+    PREPROCESSED_DATASET_FILENAME_SUFFIX
 )
 from utils.dataset_utils import create_sequences_smooth_delta
 from utils.home_deltas_utils import get_timedelta_by_home_name
@@ -39,10 +39,10 @@ if __name__ == '__main__':
         }
     )
 
-    real_boiler_df = load_dataset(DEFAULT_PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
+    real_boiler_df = load_dataset(PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
     real_boiler_t = real_boiler_df["t1"].to_numpy()
 
-    real_home_df = load_dataset(f"{DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR}\\{address}{DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX}", min_date, max_date)
+    real_home_df = load_dataset(f"{PREPROCESSED_HOMES_DATASETS_DIR}\\{address}{PREPROCESSED_DATASET_FILENAME_SUFFIX}", min_date, max_date)
     real_home_t = real_home_df["t1"].to_numpy()
 
     real_boiler_t, real_home_t = create_sequences_smooth_delta(real_boiler_t, real_home_t, window_size, delta, smooth_size)

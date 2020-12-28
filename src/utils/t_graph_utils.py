@@ -2,13 +2,13 @@
 import pandas as pd
 import numpy as np
 
-from config import DEFAULT_T_GRAPH_PATH, DEFAULT_HOME_T_DISPERSION_COEFFICIENT
+from config import TEMP_GRAPH_PATH, HOME_MIN_TEMP_COEFFICIENT
 
 
 def calc_need_t_in_home(
         weather_t_arr,
         t_graph=None,
-        home_t_dispersion_coefficient=DEFAULT_HOME_T_DISPERSION_COEFFICIENT
+        home_t_dispersion_coefficient=HOME_MIN_TEMP_COEFFICIENT
 ):
     if t_graph is None:
         t_graph = load_t_graph()
@@ -23,6 +23,6 @@ def calc_need_t_in_home(
     return need_t_arr
 
 
-def load_t_graph(path=DEFAULT_T_GRAPH_PATH):
+def load_t_graph(path=TEMP_GRAPH_PATH):
     t_graph_df = pd.read_csv(path)
     return t_graph_df

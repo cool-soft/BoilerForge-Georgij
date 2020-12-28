@@ -4,7 +4,7 @@ import os
 import keras
 
 from utils.io_utils import save_history
-from config import DEFAULT_MODELS_DIR, DEFAULT_MODEL_FILE_SUFFIX
+from config import MODELS_DIR, MODEL_FILE_SUFFIX
 
 
 # noinspection PyShadowingNames
@@ -17,7 +17,7 @@ def train_model(
         epoch_count,
         batch_size,
         model_name,
-        models_dir=DEFAULT_MODELS_DIR,
+        models_dir=MODELS_DIR,
         save_step=0,
         verbose_mode=2
 ):
@@ -45,7 +45,7 @@ def train_model(
 def get_model_save_cb(model_save_dir, save_step):
 
     if not save_step:
-        model_save_filename = f"{model_save_dir}\\best{DEFAULT_MODEL_FILE_SUFFIX}"
+        model_save_filename = f"{model_save_dir}\\best{MODEL_FILE_SUFFIX}"
         model_save_cb = keras.callbacks.ModelCheckpoint(
             filepath=model_save_filename,
             monitor='val_loss',
@@ -53,7 +53,7 @@ def get_model_save_cb(model_save_dir, save_step):
             save_best_only=True
         )
     else:
-        model_save_filename = f"{model_save_dir}\\{{}}{DEFAULT_MODEL_FILE_SUFFIX}"
+        model_save_filename = f"{model_save_dir}\\{{}}{MODEL_FILE_SUFFIX}"
         model_save_cb = keras.callbacks.ModelCheckpoint(
             filepath=model_save_filename,
             monitor='val_loss',

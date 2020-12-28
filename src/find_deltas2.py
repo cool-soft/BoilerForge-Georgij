@@ -5,10 +5,10 @@ import os
 import pandas as pd
 
 from config import (
-    DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR,
-    DEFAULT_PREPROCESSED_BOILER_DATASET_PATH,
-    DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX,
-    DEFAULT_HOMES_DELTAS_PATH
+    PREPROCESSED_HOMES_DATASETS_DIR,
+    PREPROCESSED_BOILER_DATASET_PATH,
+    PREPROCESSED_DATASET_FILENAME_SUFFIX,
+    HOMES_DELTAS_PATH
 )
 from utils.io_utils import load_dataset
 from utils.preprocess_utils import average_values
@@ -38,16 +38,16 @@ def main():
     t_in_homes_smooth_size = 0  # 30
     boiler_t_smooth_size = 0  # 30
 
-    boiler_df = load_dataset(DEFAULT_PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
+    boiler_df = load_dataset(PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
     boiler_t = boiler_df["t1"].to_numpy()
     boiler_t = average_values(boiler_t, boiler_t_smooth_size)
     boiler_max_idx = get_boiler_max_idx(boiler_t)
 
     deltas = []
-    for dataset_filename in os.listdir(DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR):
-        dataset_name = dataset_filename[:-(len(DEFAULT_PREPROCESSED_DATASET_FILENAME_SUFFIX))]
+    for dataset_filename in os.listdir(PREPROCESSED_HOMES_DATASETS_DIR):
+        dataset_name = dataset_filename[:-(len(PREPROCESSED_DATASET_FILENAME_SUFFIX))]
 
-        dataset_path = f"{DEFAULT_PREPROCESSED_HOMES_DATASETS_DIR}\\{dataset_filename}"
+        dataset_path = f"{PREPROCESSED_HOMES_DATASETS_DIR}\\{dataset_filename}"
         df = load_dataset(dataset_path, min_date, max_date)
         t_in_home = df["t1"].to_numpy()
         t_in_home = average_values(t_in_home, t_in_homes_smooth_size)
@@ -58,7 +58,7 @@ def main():
         print("{}: {}".format(dataset_name, delta))
 
     homes_deltas = pd.DataFrame(deltas)
-    homes_deltas.to_csv(DEFAULT_HOMES_DELTAS_PATH, index=False)
+    homes_deltas.to_csv(HOMES_DELTAS_PATH, index=False)
 
 
 if __name__ == '__main__':

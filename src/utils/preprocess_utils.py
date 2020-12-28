@@ -6,11 +6,12 @@ import re
 import numpy as np
 import pandas as pd
 
-from config import TIME_STEP, TIMESTAMP_COLUMN_NAME
+from time_tick import TIME_TICK
+from column_names import SOFT_M_TIMESTAMP
 
 
 def round_timestamp(df):
-    df[TIMESTAMP_COLUMN_NAME] = df[TIMESTAMP_COLUMN_NAME].apply(round_datetime)
+    df[SOFT_M_TIMESTAMP] = df[SOFT_M_TIMESTAMP].apply(round_datetime)
     return df
 
 
@@ -38,27 +39,27 @@ def interpolate_t(df, min_date, max_date, t_column_name="t1"):
     min_date = round_datetime(min_date)
     max_date = round_datetime(max_date)
 
-    first_date_idx = df[TIMESTAMP_COLUMN_NAME].idxmin()
+    first_date_idx = df[SOFT_M_TIMESTAMP].idxmin()
     first_row = df.loc[first_date_idx]
     first_t = first_row[t_column_name]
-    first_date = first_row[TIMESTAMP_COLUMN_NAME]
+    first_date = first_row[SOFT_M_TIMESTAMP]
     if first_date > min_date:
         df = df.append(
-            {TIMESTAMP_COLUMN_NAME: min_date, t_column_name: first_t},
+            {SOFT_M_TIMESTAMP: min_date, t_column_name: first_t},
             ignore_index=True
         )
 
-    last_date_idx = df[TIMESTAMP_COLUMN_NAME].idxmax()
+    last_date_idx = df[SOFT_M_TIMESTAMP].idxmax()
     last_row = df.loc[last_date_idx]
     last_t = last_row[t_column_name]
-    last_date = last_row[TIMESTAMP_COLUMN_NAME]
+    last_date = last_row[SOFT_M_TIMESTAMP]
     if last_date < max_date:
         df = df.append(
-            {TIMESTAMP_COLUMN_NAME: max_date, t_column_name: last_t},
+            {SOFT_M_TIMESTAMP: max_date, t_column_name: last_t},
             ignore_index=True
         )
 
-    df.sort_values(by=TIMESTAMP_COLUMN_NAME, ignore_index=True, inplace=True)
+    df.sort_values(by=SOFT_M_TIMESTAMP, ignore_index=True, inplace=True)
 
     previous_date = None
     previous_t = None
@@ -66,22 +67,22 @@ def interpolate_t(df, min_date, max_date, t_column_name="t1"):
     for index, row in df.iterrows():
 
         if previous_date is None:
-            previous_date = row[TIMESTAMP_COLUMN_NAME]
+            previous_date = row[SOFT_M_TIMESTAMP]
             previous_t = row[t_column_name]
             continue
 
-        next_date = row[TIMESTAMP_COLUMN_NAME]
+        next_date = row[SOFT_M_TIMESTAMP]
         next_t = row[t_column_name]
 
-        if (next_date - previous_date) > TIME_STEP:
+        if (next_date - previous_date) > TIME_TICK:
             dates_delta = next_date - previous_date
-            number_of_passes = int(dates_delta.total_seconds() // TIME_STEP.seconds) - 1
+            number_of_passes = int(dates_delta.total_seconds() // TIME_TICK.seconds) - 1
             t_step = (next_t - previous_t) / number_of_passes
             for pass_n in range(1, number_of_passes + 1):
-                new_date = previous_date + (TIME_STEP * pass_n)
+                new_date = previous_date + (TIME_TICK * pass_n)
                 new_t = previous_t + (t_step * pass_n)
                 interpolated_values.append({
-                    TIMESTAMP_COLUMN_NAME: new_date,
+                    SOFT_M_TIMESTAMP: new_date,
                     t_column_name: new_t,
                 })
 
@@ -93,13 +94,13 @@ def interpolate_t(df, min_date, max_date, t_column_name="t1"):
         previous_date = next_date
 
     df = df.append(interpolated_values)
-    df.sort_values(by=TIMESTAMP_COLUMN_NAME, ignore_index=True, inplace=True)
+    df.sort_values(by=SOFT_M_TIMESTAMP, ignore_index=True, inplace=True)
 
     return df
 
 
 def filter_by_timestamp(df, min_date, max_date):
-    df = df[(df[TIMESTAMP_COLUMN_NAME] >= min_date) & (df[TIMESTAMP_COLUMN_NAME] <= max_date)]
+    df = df[(df[SOFT_M_TIMESTAMP] >= min_date) & (df[SOFT_M_TIMESTAMP] <= max_date)]
     return df
 
 
@@ -129,7 +130,7 @@ def average_values(x, window_len=4, window='hanning'):
 
 
 def remove_duplicates_by_timestamp(df):
-    df.drop_duplicates(TIMESTAMP_COLUMN_NAME, inplace=True, ignore_index=True)
+    df.drop_duplicates(SOFT_M_TIMESTAMP, inplace=True, ignore_index=True)
     return df
 
 
@@ -178,7 +179,7 @@ def convert_date_and_time_to_timestamp(df):
         timestamp = row["date"] + time
         timestamps.append(timestamp)
 
-    df[TIMESTAMP_COLUMN_NAME] = timestamps
+    df[SOFT_M_TIMESTAMP] = timestamps
     del df["date"]
     del df["time"]
 
@@ -197,7 +198,7 @@ def round_down(df, column_name="t1"):
 
 
 def convert_str_to_timestamp(df):
-    df[TIMESTAMP_COLUMN_NAME] = df[TIMESTAMP_COLUMN_NAME].apply(parse_timestamp)
+    df[SOFT_M_TIMESTAMP] = df[SOFT_M_TIMESTAMP].apply(parse_timestamp)
     return df
 
 
@@ -226,7 +227,7 @@ def parse_timestamp(time_str):
 
 def prepare_data(data, min_date, max_date, disabled_t_threshold, t_column_name="t1", ntc=1):
     df = data[data["nTC"] == ntc].copy()
-    df = df[[t_column_name, TIMESTAMP_COLUMN_NAME]]
+    df = df[[t_column_name, SOFT_M_TIMESTAMP]]
     df = exclude_rows_without_value(df, t_column_name)
     df = convert_str_to_timestamp(df)
     df = filter_by_timestamp(df, min_date, max_date)

@@ -2,10 +2,10 @@
 import pandas as pd
 
 from config import (
-    DEFAULT_SRC_BOILER_DATASET_PATH,
-    DEFAULT_PREPROCESSED_BOILER_DATASET_PATH,
-    DEFAULT_START_DATE,
-    DEFAULT_END_DATE
+    SRC_BOILER_DATASET_PATH,
+    PREPROCESSED_BOILER_DATASET_PATH,
+    START_DATE,
+    END_DATE
 )
 from utils.preprocess_utils import prepare_data
 
@@ -32,9 +32,9 @@ if __name__ == '__main__':
     disabled_t_threshold = 0  # 35
 
     prepare_boilers_data(
-        DEFAULT_SRC_BOILER_DATASET_PATH,
-        DEFAULT_PREPROCESSED_BOILER_DATASET_PATH,
-        DEFAULT_START_DATE,
-        DEFAULT_END_DATE,
+        SRC_BOILER_DATASET_PATH,
+        PREPROCESSED_BOILER_DATASET_PATH,
+        START_DATE,
+        END_DATE,
         disabled_t_threshold
     )
