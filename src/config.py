@@ -15,10 +15,17 @@ MODEL_FILE_SUFFIX = "_model"
 
 PREPROCESSED_DATASET_FILENAME_SUFFIX = ".pickle"
 
+NTC = 1
+
+HOME_DISABLED_TEMP_THRESHOLD = 0
+HOME_DATA_TIMEZONE = "Asia/Yekaterinburg"
+HOME_TIMESTAMP_PATTERNS = (
+    r"(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})\s(?P<hours>\d{2}):(?P<minutes>\d{2}).{7}",
+    r"(?P<day>\d{2})\.(?P<month>\d{2})\.(?P<year>\d{4})\s(?P<hours>\d{1,2}):(?P<minutes>\d{2})"
+)
 HOMES_SRC_DATASETS_DIR = "storage\\datasets\\src\\homes"
 HOMES_PREPROCESSED_DATASETS_DIR = "storage\\datasets\\preprocessed\\homes"
 
-BOILER_NTC = 1
 BOILER_DISABLED_TEMP_THRESHOLD = 0
 BOILER_DATA_TIMEZONE = "Asia/Yekaterinburg"
 BOILER_SRC_DATASET_PATH = "storage\\datasets\\src\\Boilers308_2.csv"

@@ -3,9 +3,9 @@ import os
 import logging
 
 import config
-from preprocessing.weather_dataset_preprocessing.weather_data_interpolators.weather_data_linear_interpolator import \
+from dataset_preprocessing.weather_dataset_preprocessing.weather_data_interpolators.weather_data_linear_interpolator import \
     WeatherDataLinearInterpolator
-from preprocessing.weather_dataset_preprocessing.weather_data_parsers.soft_m_weather_data_parser import \
+from dataset_preprocessing.weather_dataset_preprocessing.weather_data_parsers.soft_m_weather_data_parser import \
     SoftMWeatherDataParser
 
 
