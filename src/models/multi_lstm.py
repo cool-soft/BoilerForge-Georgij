@@ -6,8 +6,8 @@ from keras import Sequential
 from keras.layers import (Dense, LSTM)
 
 from config import (
-    PREPROCESSED_BOILER_DATASET_PATH,
-    PREPROCESSED_HOMES_DATASETS_DIR,
+    BOILER_PREPROCESSED_DATASET_PATH,
+    HOMES_PREPROCESSED_DATASETS_DIR,
     HOMES_DELTAS_PATH,
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
     MODELS_DIR
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     parent_model_name = get_model_save_name(parent_model_name)
 
-    boiler_df = load_dataset(PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
+    boiler_df = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
     boiler_t = boiler_df["t1"].to_numpy()
 
     val_boiler_df = filter_by_timestamp(boiler_df, val_min_date, val_max_date)
@@ -60,13 +60,13 @@ if __name__ == '__main__':
     with open(HOMES_DELTAS_PATH) as f:
         homes_deltas = json.load(f)
 
-    for dataset_filename in os.listdir(PREPROCESSED_HOMES_DATASETS_DIR):
+    for dataset_filename in os.listdir(HOMES_PREPROCESSED_DATASETS_DIR):
         model_name = dataset_filename[:-(len(PREPROCESSED_DATASET_FILENAME_SUFFIX))]
         print("Training model: {}".format(model_name))
 
         delta = homes_deltas[model_name]
 
-        dataset_path = f"{PREPROCESSED_HOMES_DATASETS_DIR}\\{dataset_filename}"
+        dataset_path = f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{dataset_filename}"
 
         home_df = load_dataset(dataset_path, min_date, max_date)
         t_in_home = home_df["t1"].to_numpy()

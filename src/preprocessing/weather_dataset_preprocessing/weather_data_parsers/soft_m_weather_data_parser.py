@@ -21,10 +21,10 @@ class SoftMWeatherDataParser(WeatherDataParser):
     def set_weather_data_timezone_name(self, timezone_name):
         self._weather_data_timezone_name = timezone_name
 
-    def parse_weather_data(self, weather_as_text):
+    def parse_weather_data(self, weather_data):
         self._logger.debug("Parsing weather data")
 
-        df = pd.read_json(weather_as_text)
+        df = pd.read_json(weather_data)
         df.rename(
             columns={
                 column_names.SOFT_M_WEATHER_TEMP: column_names.WEATHER_TEMP

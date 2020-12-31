@@ -46,3 +46,10 @@ def arithmetic_round(number):
     else:
         rounded_number = number_floor + 1
     return rounded_number
+
+
+def float_converter(value):
+    if isinstance(value, str):
+        value = value.replace(",", ".")
+    value = float(value)
+    return value

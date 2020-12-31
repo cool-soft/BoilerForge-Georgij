@@ -3,8 +3,8 @@ import datetime
 from keras import Input, Model, Sequential
 from keras.layers import (Dense, Reshape, Bidirectional, LSTM)
 from config import (
-    PREPROCESSED_BOILER_DATASET_PATH,
-    PREPROCESSED_HOMES_DATASETS_DIR
+    BOILER_PREPROCESSED_DATASET_PATH,
+    HOMES_PREPROCESSED_DATASETS_DIR
 )
 from utils.dataset_utils import (
     get_between_dates,
@@ -75,8 +75,8 @@ if __name__ == '__main__':
     home_number = get_address_number_by_name(address)
     delta = get_timedelta_by_home_name(home_number)
 
-    full_x = load_dataset(PREPROCESSED_BOILER_DATASET_PATH)
-    full_y = load_dataset(PREPROCESSED_HOMES_DATASETS_DIR)
+    full_x = load_dataset(BOILER_PREPROCESSED_DATASET_PATH)
+    full_y = load_dataset(HOMES_PREPROCESSED_DATASETS_DIR)
     full_y = get_home_dataset_by_address_number(full_y, home_number)
 
     _, x = get_between_dates(full_x, min_date, max_date)

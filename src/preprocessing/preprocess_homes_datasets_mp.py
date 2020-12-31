@@ -5,11 +5,11 @@ import os
 import pandas as pd
 
 from config import (
-    PREPROCESSED_HOMES_DATASETS_DIR,
+    HOMES_PREPROCESSED_DATASETS_DIR,
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
-    SRC_HOMES_DATASETS_DIR,
-    START_DATE,
-    END_DATE
+    HOMES_SRC_DATASETS_DIR,
+    START_DATETIME,
+    END_DATETIME
 )
 
 from utils.preprocessing import prepare_data
@@ -56,9 +56,9 @@ if __name__ == '__main__':
     disabled_t_threshold = 0  # 35
 
     prepare_homes_data(
-        SRC_HOMES_DATASETS_DIR,
-        PREPROCESSED_HOMES_DATASETS_DIR,
-        START_DATE,
-        END_DATE,
+        HOMES_SRC_DATASETS_DIR,
+        HOMES_PREPROCESSED_DATASETS_DIR,
+        START_DATETIME,
+        END_DATETIME,
         disabled_t_threshold
     )

@@ -10,7 +10,7 @@ from config import (
     MODELS_DIR,
     PREDICTED_BOILER_TEMP_PATH,
     HOMES_DELTAS_PATH,
-    PREPROCESSED_WEATHER_DATASET_PATH
+    WEATHER_PREPROCESSED_DATASET_PATH
 )
 from time_tick import TIME_TICK
 from column_names import SOFT_M_TIMESTAMP
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     weather_start_date = boiler_start_date + ((homes_time_deltas["time_delta"].min() + start_idx_delta) * TIME_TICK)
     weather_end_date = boiler_end_date + ((homes_time_deltas["time_delta"].max() + smooth_size) * TIME_TICK)
     weather_df = load_dataset(
-        PREPROCESSED_WEATHER_DATASET_PATH,
+        WEATHER_PREPROCESSED_DATASET_PATH,
         weather_start_date,
         weather_end_date
     )

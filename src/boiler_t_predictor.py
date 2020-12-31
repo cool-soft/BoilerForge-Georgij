@@ -7,7 +7,7 @@ import column_names
 
 from config import (
     PREDICTED_BOILER_TEMP_PATH,
-    PREPROCESSED_BOILER_DATASET_PATH,
+    BOILER_PREPROCESSED_DATASET_PATH,
     HOME_MIN_TEMP_COEFFICIENT
 )
 from utils.dataset_utils import create_time_series
@@ -97,7 +97,7 @@ class BoilerTPredictor:
             need_t_condition = need_t_condition & (self._optimized_t_table[home_name] >= home_need_t)
 
         need_boiler_t = self._optimized_t_table[need_t_condition]
-        need_boiler_t = need_boiler_t[column_names.TEMP_AT_BOILER_OUT].min()
+        need_boiler_t = need_boiler_t[column_names.BOILER_OUT_TEMP].min()
         return need_boiler_t
 
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
     predicted_boiler_t = predicted_boiler_t_df["t1"].to_numpy()
     dates = predicted_boiler_t_df[column_names.SOFT_M_TIMESTAMP].to_list()
 
-    real_boiler_t_dataset = load_dataset(PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
+    real_boiler_t_dataset = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
     real_boiler_t = real_boiler_t_dataset["t1"].to_numpy()
     start_t_idx = window_size - smooth_size - 1
     max_home_time_delta = homes_time_deltas["time_delta"].max()

@@ -8,18 +8,18 @@ from config import (
     MODELS_DIR,
     HISTORY_FILENAME,
     MODEL_FILE_SUFFIX,
-    PREPROCESSED_WEATHER_DATASET_PATH,
-    START_DATE,
-    END_DATE,
+    WEATHER_PREPROCESSED_DATASET_PATH,
+    START_DATETIME,
+    END_DATETIME,
     TEMP_CORRELATION_TABLE_PATH
 )
 from utils.preprocessing import filter_by_timestamp
 
 
 def load_weather_dataset(
-    min_date=START_DATE,
-    max_date=END_DATE,
-    path=PREPROCESSED_WEATHER_DATASET_PATH
+    min_date=START_DATETIME,
+    max_date=END_DATETIME,
+    path=WEATHER_PREPROCESSED_DATASET_PATH
 ):
     weather_df = load_dataset(path, min_date, max_date)
     return weather_df

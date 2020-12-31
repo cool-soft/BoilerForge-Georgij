@@ -2,15 +2,15 @@
 import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
-from column_names import TEMP_AT_BOILER_OUT
+from column_names import BOILER_OUT_TEMP
 from utils.io_utils import load_optimized_t_table
 
 if __name__ == '__main__':
 
     optimized_t_table = load_optimized_t_table()
 
-    boiler_t = optimized_t_table[TEMP_AT_BOILER_OUT].to_numpy()
-    del optimized_t_table[TEMP_AT_BOILER_OUT]
+    boiler_t = optimized_t_table[BOILER_OUT_TEMP].to_numpy()
+    del optimized_t_table[BOILER_OUT_TEMP]
 
     register_matplotlib_converters()
 

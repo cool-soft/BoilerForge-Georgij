@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
 from config import (
-    PREPROCESSED_HOMES_DATASETS_DIR,
-    PREPROCESSED_WEATHER_DATASET_PATH,
-    PREPROCESSED_BOILER_DATASET_PATH
+    HOMES_PREPROCESSED_DATASETS_DIR,
+    WEATHER_PREPROCESSED_DATASET_PATH,
+    BOILER_PREPROCESSED_DATASET_PATH
 )
 from utils.io_utils import load_dataset
 from utils.preprocessing import average_values
@@ -19,8 +19,8 @@ if __name__ == '__main__':
     t_in_homes_smooth_size = 100
     allowed_homes = [0, 1, 2, 3]  # [0, 1, 2, 3, 4, 5, 6, 7, 9]
 
-    dates, x = load_dataset(PREPROCESSED_HOMES_DATASETS_DIR, min_date, max_date)
-    _, y = load_dataset(PREPROCESSED_BOILER_DATASET_PATH, min_date, max_date)
+    dates, x = load_dataset(HOMES_PREPROCESSED_DATASETS_DIR, min_date, max_date)
+    _, y = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
     # _, weather_t = load_dataset(dst_weather_t_file, min_date, max_date)
     # _, second_t = load_dataset(dst_second_t_file, min_date, max_date)
 

@@ -6,7 +6,7 @@ import numpy as np
 
 from utils.io_utils import load_dataset, load_saved_model
 from utils.metrics import relative_error
-from config import PREPROCESSED_HOMES_DATASETS_DIR
+from config import HOMES_PREPROCESSED_DATASETS_DIR
 
 
 def create_window_sequences(temp_arr, window_size):
@@ -53,7 +53,7 @@ def main():
     start_idx = 0
     end_idx = window_size
 
-    df = load_dataset(f"{PREPROCESSED_HOMES_DATASETS_DIR}\\{dataset_name}", min_date, max_date)
+    df = load_dataset(f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{dataset_name}", min_date, max_date)
     temp = df["t1"].to_numpy()
 
     sequences = create_window_sequences(temp, window_size)
