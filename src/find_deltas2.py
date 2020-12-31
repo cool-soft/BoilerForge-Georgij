@@ -11,7 +11,7 @@ from config import (
     HOMES_DELTAS_PATH
 )
 from utils.io_utils import load_dataset
-from utils.preprocessing import average_values
+from preprocess_utils import average_values
 
 
 def get_boiler_max_idx(boiler_t):

@@ -6,6 +6,7 @@ from dataset_preprocessing.boiler_dataset_preprocessing.boiler_data_interpolator
     BoilerDataLinearInterpolator
 from dataset_preprocessing.boiler_dataset_preprocessing.boiler_data_parsers.soft_m_boiler_data_parser import \
     SoftMBoilerDataParser
+from preprocess_utils import filter_by_timestamp_closed
 
 if __name__ == '__main__':
     logging.basicConfig(level="DEBUG")
@@ -27,9 +28,7 @@ if __name__ == '__main__':
         inplace=True
     )
 
-    boiler_df = boiler_df[
-        (boiler_df[column_names.TIMESTAMP] >= config.START_DATETIME) &
-        (boiler_df[column_names.TIMESTAMP] <= config.END_DATETIME)]
+    boiler_df = filter_by_timestamp_closed(boiler_df, config.START_DATETIME, config.END_DATETIME)
 
     logging.debug("Saving to {}".format(config.BOILER_PREPROCESSED_DATASET_PATH))
     boiler_df.to_pickle(config.BOILER_PREPROCESSED_DATASET_PATH)

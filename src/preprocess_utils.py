@@ -2,6 +2,11 @@ import datetime
 import math
 import re
 
+import numpy as np
+
+import column_names
+from column_names import SOFT_M_TIMESTAMP
+
 
 def round_datetime(src_datetime, time_tick_in_seconds):
     src_timestamp = src_datetime.timestamp()
@@ -53,3 +58,36 @@ def float_converter(value):
         value = value.replace(",", ".")
     value = float(value)
     return value
+
+
+def average_values(x, window_len=4, window='hanning'):
+    if x.ndim != 1:
+        raise ValueError("smooth only accepts 1 dimension arrays.")
+
+    if x.size < window_len:
+        raise ValueError("Input vector needs to be bigger than window size.")
+
+    if window not in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
+        raise ValueError("Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
+
+    if window_len < 3:
+        return x
+
+    s = np.r_[x[window_len - 1:0:-1], x, x[-2:-window_len - 1:-1]]
+
+    if window == 'flat':
+        w = np.ones(window_len, 'd')
+    else:
+        w = getattr(np, window)(window_len)
+
+    y = np.convolve(w / w.sum(), s, mode='valid')
+    return y[(window_len // 2 - 1 + (window_len % 2)):-(window_len // 2)]
+    # return y
+
+
+def filter_by_timestamp_closed(df, start_datetime, end_datetime):
+    df = df[
+        (df[column_names.TIMESTAMP] >= start_datetime) &
+        (df[column_names.TIMESTAMP] <= end_datetime)
+    ]
+    return df

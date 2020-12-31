@@ -13,7 +13,7 @@ from config import (
     END_DATETIME,
     TEMP_CORRELATION_TABLE_PATH
 )
-from utils.preprocessing import filter_by_timestamp
+from preprocess_utils import filter_by_timestamp_closed
 
 
 def load_weather_dataset(
@@ -32,7 +32,7 @@ def load_optimized_t_table(path=TEMP_CORRELATION_TABLE_PATH):
 
 def load_dataset(path, start_date, end_date):
     df = load_dataframe(path)
-    df = filter_by_timestamp(df, start_date, end_date)
+    df = filter_by_timestamp_closed(df, start_date, end_date)
     return df
 
 

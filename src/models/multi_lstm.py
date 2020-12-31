@@ -15,8 +15,7 @@ from config import (
 from utils.dataset_utils import create_sequences_smooth_delta
 from utils.io_utils import load_dataset, get_model_save_name
 from utils.metrics import relative_error
-from utils.preprocessing import filter_by_timestamp
-
+from preprocess_utils import filter_by_timestamp_closed
 
 # noinspection PyShadowingNames
 from utils.train_utils import train_model
@@ -54,7 +53,7 @@ if __name__ == '__main__':
     boiler_df = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
     boiler_t = boiler_df["t1"].to_numpy()
 
-    val_boiler_df = filter_by_timestamp(boiler_df, val_min_date, val_max_date)
+    val_boiler_df = filter_by_timestamp_closed(boiler_df, val_min_date, val_max_date)
     val_boiler_t = val_boiler_df["t1"].to_numpy()
 
     with open(HOMES_DELTAS_PATH) as f:
@@ -72,7 +71,7 @@ if __name__ == '__main__':
         t_in_home = home_df["t1"].to_numpy()
         x_seq, y_seq = create_sequences_smooth_delta(boiler_t, t_in_home, window_size, delta, smooth_size)
 
-        val_home_df = filter_by_timestamp(home_df, val_min_date, val_max_date)
+        val_home_df = filter_by_timestamp_closed(home_df, val_min_date, val_max_date)
         val_t_in_home = val_home_df["t1"].to_numpy()
         val_x_seq, val_y_seq = create_sequences_smooth_delta(boiler_t, t_in_home, window_size, delta, smooth_size)
 

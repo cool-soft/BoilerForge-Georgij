@@ -8,6 +8,7 @@ from dataset_preprocessing.homes_datasets_preprocessing.home_data_interpolators.
     HomeDataLinearInterpolator
 from dataset_preprocessing.homes_datasets_preprocessing.home_data_parsers.soft_m_home_data_parser import \
     SoftMHomeDataParser
+from preprocess_utils import filter_by_timestamp_closed
 
 
 def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_src_path, home_dataset_dst_path):
@@ -20,9 +21,7 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
     with open(home_dataset_src_path, encoding="UTF-8") as f:
         home_df = home_data_parser.parse_home_data(f)
 
-    home_df = home_df[
-        (home_df[column_names.TIMESTAMP] >= config.START_DATETIME) &
-        (home_df[column_names.TIMESTAMP] <= config.END_DATETIME)]
+    home_df = filter_by_timestamp_closed(home_df, config.START_DATETIME, config.END_DATETIME)
 
     home_df = home_data_interpolator.interpolate_boiler_data(
         home_df,
@@ -30,7 +29,7 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
         end_datetime=config.END_DATETIME,
         inplace=True
     )
-    
+
     logging.info(f"Saving to {home_dataset_dst_path}")
     home_df.to_pickle(home_dataset_dst_path)
 
