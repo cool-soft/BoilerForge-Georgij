@@ -19,15 +19,18 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
     logging.info(f"Processing {home_dataset_src_path}")
     with open(home_dataset_src_path, encoding="UTF-8") as f:
         home_df = home_data_parser.parse_home_data(f)
+
     home_df = home_df[
         (home_df[column_names.TIMESTAMP] >= config.START_DATETIME) &
         (home_df[column_names.TIMESTAMP] <= config.END_DATETIME)]
+
     home_df = home_data_interpolator.interpolate_boiler_data(
         home_df,
         start_datetime=config.START_DATETIME,
         end_datetime=config.END_DATETIME,
         inplace=True
     )
+    
     logging.info(f"Saving to {home_dataset_dst_path}")
     home_df.to_pickle(home_dataset_dst_path)
 
