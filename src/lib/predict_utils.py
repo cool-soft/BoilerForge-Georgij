@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def plot_real_and_predicted(dates, real, predicted, who_temp="бойлера", font_size=15):
+def plot_real_and_predicted(dates, real, predicted, who_temp, font_size=15):
     abs_delta = np.abs(predicted - real)
 
     ax = plt.axes()

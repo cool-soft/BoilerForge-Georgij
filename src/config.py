@@ -45,3 +45,5 @@ TEMP_CORRELATION_TABLE_PATH = "storage\\optimized_temp_table.pickle"
 TEMP_GRAPH_PATH = "storage\\temp_graph.csv"
 HOME_MIN_TEMP_COEFFICIENT = 0.97
 PREDICTED_BOILER_TEMP_PATH = "storage\\predicted_boiler_temp.pickle"
+
+BEST_MODEL_FILENAME = "best"

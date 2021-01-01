@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
 from column_names import BOILER_OUT_TEMP
-from utils.io_utils import load_optimized_t_table
+from simple_model_utils.simple_model_io import load_temp_correlation_table
 
 if __name__ == '__main__':
 
-    optimized_t_table = load_optimized_t_table()
+    optimized_t_table = load_temp_correlation_table()
 
     boiler_t = optimized_t_table[BOILER_OUT_TEMP].to_numpy()
     del optimized_t_table[BOILER_OUT_TEMP]

@@ -4,8 +4,9 @@ import datetime
 from matplotlib import pyplot as plt
 import numpy as np
 
-from utils.io_utils import load_dataset, load_saved_model
-from utils.metrics import relative_error
+from utils.io_utils import load_dataset
+from model_utils.model_io import load_saved_model
+from model_utils.model_metrics import relative_error
 from config import HOMES_PREPROCESSED_DATASETS_DIR
 
 

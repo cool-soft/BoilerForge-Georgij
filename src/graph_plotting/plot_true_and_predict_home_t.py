@@ -10,9 +10,10 @@ from config import (
 )
 from utils.dataset_utils import create_sequences_smooth_delta
 from utils.home_deltas_utils import get_timedelta_by_home_name
-from utils.io_utils import load_dataset, load_saved_model
-from utils.metrics import relative_error
-from utils.predict_utils import plot_real_and_predicted
+from utils.io_utils import load_dataset
+from model_utils.model_io import load_saved_model
+from model_utils.model_metrics import relative_error
+from predict_utils import plot_real_and_predicted
 from preprocess_utils import average_values
 
 if __name__ == '__main__':

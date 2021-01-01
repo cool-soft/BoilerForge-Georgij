@@ -1,17 +1,14 @@
-
 import math
 import os
 
 import numpy as np
 import pandas as pd
 
-from config import TEMP_CORRELATION_TABLE_PATH, MODELS_DIR
-from utils.metrics import relative_error
-from utils.io_utils import load_saved_model
+import config
+from model_utils.model_io import load_saved_model
 
 
-# noinspection PyShadowingNames
-class TOptimizer:
+class TempCorrelationTableGenerator:
 
     def __init__(self):
         self._smooth_size = 2
@@ -34,7 +31,7 @@ class TOptimizer:
     def set_window_size(self, window_size):
         self._window_size = window_size
 
-    def set_t_step(self, t_step):
+    def set_temp_step(self, t_step):
         self._t_step = t_step
 
     def set_parent_model_name(self, parent_model_name):
@@ -43,7 +40,7 @@ class TOptimizer:
     def set_custom_models_objects(self, custom_objects):
         self._custom_models_objects = custom_objects
 
-    def get_optimized_t_df(self):
+    def get_temp_correlation_table(self):
         return self._optimized_t_table
 
     def start_optimization(self):
@@ -52,18 +49,16 @@ class TOptimizer:
         self._generate_control_t_pack()
         self._calc_optimized_t_table()
 
+    # noinspection SpellCheckingInspection
     def _load_submodels(self):
         print("Loading submodels")
 
-        parent_model_dir = f"{MODELS_DIR}\\{self._parent_model_name}"
+        parent_model_dir = f"{config.MODELS_DIR}\\{self._parent_model_name}"
         submodels = {}
         for submodel_name in os.listdir(parent_model_dir):
-            model = load_saved_model(
-                submodel_name,
-                "best",
-                custom_objects=self._custom_models_objects,
-                models_dir=parent_model_dir
-            )
+            submodel_filepath = f"{parent_model_dir}\\{submodel_name}\\" \
+                                f"{config.BEST_MODEL_FILENAME}{config.MODEL_FILE_SUFFIX}"
+            model = load_saved_model(submodel_filepath, custom_objects=self._custom_models_objects)
             submodels[submodel_name] = model
         self._submodels = submodels
 
@@ -90,26 +85,3 @@ class TOptimizer:
         boiler_t = self._control_t_pack[:, 0]
         optimized_t["BOILER"] = boiler_t
         self._optimized_t_table = pd.DataFrame(data=optimized_t)
-
-
-if __name__ == '__main__':
-    model_name = "multi_lstm_2020-09-14-21.22.12"
-    smooth_size = 2
-    window_size = 5
-    custom_models_objects = {
-        "relative_error": relative_error,
-    }
-    t_step = 0.1
-
-    optimizer = TOptimizer()
-    optimizer.set_smooth_size(smooth_size)
-    optimizer.set_window_size(window_size)
-    optimizer.set_parent_model_name(model_name)
-    optimizer.set_custom_models_objects(custom_models_objects)
-    optimizer.set_t_step(t_step)
-
-    optimizer.start_optimization()
-
-    optimized_t_df = optimizer.get_optimized_t_df()
-    print(f"Saving optimized t table to {TEMP_CORRELATION_TABLE_PATH}")
-    optimized_t_df.to_pickle(TEMP_CORRELATION_TABLE_PATH)

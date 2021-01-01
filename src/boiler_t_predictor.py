@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 
 import column_names
+import config
 
 from config import (
     PREDICTED_BOILER_TEMP_PATH,
@@ -13,12 +14,12 @@ from config import (
 from utils.dataset_utils import create_time_series
 from utils.io_utils import (
     load_dataset,
-    load_weather_dataset,
-    load_optimized_t_table
+    load_weather_dataset
 )
+from simple_model_utils.simple_model_io import load_temp_correlation_table
 from utils.home_deltas_utils import load_homes_time_deltas
 from utils.t_graph_utils import load_t_graph
-from utils.predict_utils import plot_real_and_predicted, print_min_max_mean_delta
+from predict_utils import plot_real_and_predicted, print_min_max_mean_delta
 
 
 # noinspection PyShadowingNames
@@ -109,7 +110,7 @@ if __name__ == '__main__':
     smooth_size = 2
 
     homes_time_deltas = load_homes_time_deltas()
-    optimized_t_table = load_optimized_t_table()
+    optimized_t_table = load_temp_correlation_table(config.TEMP_CORRELATION_TABLE_PATH)
     temp_graph = load_t_graph()
     weather_df = load_weather_dataset(min_date, max_date)
     weather_t = weather_df["t1"].to_numpy()

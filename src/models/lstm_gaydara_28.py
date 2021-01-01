@@ -1,7 +1,7 @@
 import datetime
 
-from keras import Input, Model, Sequential
-from keras.layers import (Dense, Reshape, Bidirectional, LSTM)
+from keras import Sequential
+from keras.layers import (Dense, LSTM)
 from config import (
     BOILER_PREPROCESSED_DATASET_PATH,
     HOMES_PREPROCESSED_DATASETS_DIR
@@ -13,9 +13,10 @@ from utils.dataset_utils import (
     get_home_dataset_by_address_number
 )
 from utils.home_deltas_utils import get_timedelta_by_home_name
-from utils.io_utils import load_dataset, get_model_save_name
-from utils.metrics import relative_error
-from utils.train_utils import train_model
+from utils.io_utils import load_dataset
+from model_utils.model_io import get_model_save_name
+from model_utils.model_metrics import relative_error
+from model_utils.model_training import train_model
 
 
 # noinspection PyShadowingNames

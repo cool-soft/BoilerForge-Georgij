@@ -16,8 +16,9 @@ from time_tick import TIME_TICK
 from column_names import SOFT_M_TIMESTAMP
 from utils.dataset_utils import create_time_series
 from utils.home_deltas_utils import load_homes_time_deltas
-from utils.io_utils import load_saved_model, load_dataframe, load_dataset
-from utils.metrics import relative_error
+from utils.io_utils import load_dataframe, load_dataset
+from model_utils.model_io import load_saved_model
+from model_utils.model_metrics import relative_error
 from utils.t_graph_utils import calc_need_t_in_home
 
 

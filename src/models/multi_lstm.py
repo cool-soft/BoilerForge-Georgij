@@ -13,12 +13,13 @@ from config import (
     MODELS_DIR
 )
 from utils.dataset_utils import create_sequences_smooth_delta
-from utils.io_utils import load_dataset, get_model_save_name
-from utils.metrics import relative_error
+from utils.io_utils import load_dataset
+from model_utils.model_io import get_model_save_name
+from model_utils.model_metrics import relative_error
 from preprocess_utils import filter_by_timestamp_closed
 
 # noinspection PyShadowingNames
-from utils.train_utils import train_model
+from model_utils.model_training import train_model
 
 
 # noinspection PyShadowingNames
@@ -85,6 +86,6 @@ if __name__ == '__main__':
             epoch_count,
             batch_size,
             model_name,
-            models_dir=f"{MODELS_DIR}\\{parent_model_name}",
+            model_dir=f"{MODELS_DIR}\\{parent_model_name}",
             verbose_mode=0
         )
