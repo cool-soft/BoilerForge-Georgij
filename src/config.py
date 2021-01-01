@@ -8,8 +8,8 @@ TIMEZONE = "Asia/Yekaterinburg"
 START_DATETIME = datetime.datetime(2018, 12, 1, 0, 0, 0, tzinfo=gettz(TIMEZONE))
 END_DATETIME = datetime.datetime(2019, 6, 1, 0, 0, 0, tzinfo=gettz(TIMEZONE))
 
-MODELS_DIR = "saved_models"
-HISTORY_FILENAME = "history"
+MODELS_DIR = "storage\\saved_models"
+MODEL_METRICS_FILENAME = "history"
 MODEL_FILE_SUFFIX = "_model"
 
 

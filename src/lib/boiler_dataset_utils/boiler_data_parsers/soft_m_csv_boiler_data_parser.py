@@ -8,7 +8,7 @@ from preprocess_utils import parse_datetime, float_converter
 from .boiler_data_parser import BoilerDataParser
 
 
-class SoftMBoilerDataParser(BoilerDataParser):
+class SoftMCSVBoilerDataParser(BoilerDataParser):
 
     def __init__(self, weather_data_timezone_name=None):
         self._logger = logging.getLogger(self.__class__.__name__)

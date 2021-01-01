@@ -1,13 +1,12 @@
 import logging
-import os
 import multiprocessing as mp
+import os
 
-import column_names
 import config
-from dataset_preprocessing.homes_datasets_preprocessing.home_data_interpolators.home_data_linear_interpolator import \
+from homes_datasets_utils.home_data_interpolators.home_data_linear_interpolator import \
     HomeDataLinearInterpolator
-from dataset_preprocessing.homes_datasets_preprocessing.home_data_parsers.soft_m_home_data_parser import \
-    SoftMHomeDataParser
+from homes_datasets_utils.home_data_parsers.soft_m_csv_home_data_parser import \
+    SoftMCSVHomeDataParser
 from preprocess_utils import filter_by_timestamp_closed
 
 
@@ -37,7 +36,7 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
 def main():
     logging.basicConfig(level="DEBUG")
 
-    home_data_parser = SoftMHomeDataParser()
+    home_data_parser = SoftMCSVHomeDataParser()
     home_data_parser.set_ntc(config.NTC)
     home_data_parser.set_disabled_temp_threshold(config.HOME_DISABLED_TEMP_THRESHOLD)
     home_data_parser.set_timestamp_parse_patterns(config.HOME_TIMESTAMP_PATTERNS)

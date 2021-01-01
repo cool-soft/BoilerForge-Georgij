@@ -1,12 +1,10 @@
 
 import json
-import os
 import pickle
 from datetime import datetime
 
 from config import (
     MODELS_DIR,
-    HISTORY_FILENAME,
     MODEL_FILE_SUFFIX,
     WEATHER_PREPROCESSED_DATASET_PATH,
     START_DATETIME,
@@ -48,15 +46,6 @@ def load_json(path):
     return data
 
 
-def save_history(history, model_name, models_dir=MODELS_DIR, filename=HISTORY_FILENAME):
-    model_dir = os.path.abspath("{}\\{}".format(models_dir, model_name))
-    if not os.path.exists(model_dir):
-        os.makedirs(model_dir)
-    filename = "{}\\{}".format(model_dir, filename)
-    with open(filename, "w") as f:
-        json.dump(history, f, indent=4)
-
-
 def get_model_save_name(model_name):
     fit_start_time = datetime.today().strftime("%Y-%m-%d-%H.%M.%S")
     model_save_name = "{}_{}".format(model_name, fit_start_time)
@@ -73,7 +62,3 @@ def load_saved_model(model_name, iteration, custom_objects=None, models_dir=MODE
     return model
 
 
-def load_model_metrics(model_name, models_dir=MODELS_DIR, history_filename=HISTORY_FILENAME):
-    file_path = "{}\\{}\\{}".format(models_dir, model_name, history_filename)
-    model_metrics = load_json(file_path)
-    return model_metrics

@@ -3,7 +3,8 @@ import os
 
 import keras
 
-from utils.io_utils import save_history
+import config
+from metrics_utils.metrics_io import save_model_metrics
 from config import MODELS_DIR, MODEL_FILE_SUFFIX
 
 
@@ -39,7 +40,11 @@ def train_model(
         callbacks=[model_save_cb]
     )
 
-    save_history(history.history, model_name, models_dir=models_dir)
+    model_dir = "{}\\{}".format(models_dir, model_name)
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    filepath = "{}\\{}".format(models_dir, config.MODEL_METRICS_FILENAME)
+    save_model_metrics(history.history, filepath)
 
 
 def get_model_save_cb(model_save_dir, save_step):

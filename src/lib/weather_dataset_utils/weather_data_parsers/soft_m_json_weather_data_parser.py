@@ -9,7 +9,7 @@ from preprocess_utils import parse_time
 from .weather_data_parser import WeatherDataParser
 
 
-class SoftMWeatherDataParser(WeatherDataParser):
+class SoftMJSONWeatherDataParser(WeatherDataParser):
 
     def __init__(self, weather_data_timezone_name=None):
         self._logger = logging.getLogger(self.__class__.__name__)

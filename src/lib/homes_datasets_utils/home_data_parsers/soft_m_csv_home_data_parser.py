@@ -8,7 +8,7 @@ from preprocess_utils import parse_datetime, float_converter
 from .home_data_parser import HomeDataParser
 
 
-class SoftMHomeDataParser(HomeDataParser):
+class SoftMCSVHomeDataParser(HomeDataParser):
 
     def __init__(self, weather_data_timezone_name=None):
         self._logger = logging.getLogger(self.__class__.__name__)
