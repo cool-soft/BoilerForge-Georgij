@@ -5,7 +5,6 @@ import re
 import numpy as np
 
 import column_names
-from column_names import SOFT_M_TIMESTAMP
 
 
 def round_datetime(src_datetime, time_tick_in_seconds):
@@ -60,6 +59,7 @@ def float_converter(value):
     return value
 
 
+# noinspection SpellCheckingInspection
 def average_values(x, window_len=4, window='hanning'):
     if x.ndim != 1:
         raise ValueError("smooth only accepts 1 dimension arrays.")
