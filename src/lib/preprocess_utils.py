@@ -90,4 +90,5 @@ def filter_by_timestamp_closed(df, start_datetime, end_datetime):
         (df[column_names.TIMESTAMP] >= start_datetime) &
         (df[column_names.TIMESTAMP] <= end_datetime)
     ]
+
     return df

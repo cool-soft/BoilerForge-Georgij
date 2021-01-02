@@ -47,7 +47,8 @@ def main():
     processes = []
     for dataset_name in os.listdir(config.HOMES_SRC_DATASETS_DIR):
         home_dataset_src_path = f"{config.HOMES_SRC_DATASETS_DIR}\\{dataset_name}"
-        home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_DATASETS_DIR}\\{dataset_name}"
+        home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_DATASETS_DIR}\\" \
+                                f"{dataset_name}{config.PREPROCESSED_DATASET_FILENAME_SUFFIX}"
 
         process = mp.Process(
             target=process_home_dataset,

@@ -2,22 +2,23 @@
 import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
-from column_names import BOILER_OUT_TEMP
+import config
+import column_names
 from simple_model_utils.simple_model_io import load_temp_correlation_table
 
 if __name__ == '__main__':
 
-    optimized_t_table = load_temp_correlation_table()
+    temp_correlation_table = load_temp_correlation_table(config.TEMP_CORRELATION_TABLE_PATH)
 
-    boiler_t = optimized_t_table[BOILER_OUT_TEMP].to_numpy()
-    del optimized_t_table[BOILER_OUT_TEMP]
+    boiler_temp = temp_correlation_table[column_names.BOILER_OUT_TEMP].to_numpy()
+    homes_temps = temp_correlation_table.copy()
+    del homes_temps[column_names.BOILER_OUT_TEMP]
 
     register_matplotlib_converters()
-
     ax = plt.axes()
-
-    for home_name in optimized_t_table.columns.values.tolist():
-        ax.plot(boiler_t, optimized_t_table[home_name].to_numpy(), label=home_name)
+    for home_name in homes_temps.columns.values.tolist():
+        home_temp = homes_temps[home_name].to_numpy()
+        ax.plot(boiler_temp, home_temp, label=home_name)
 
     ax.set_xlabel('Температура бойлера, Град.')
     ax.set_ylabel('Температура на входе в дома, Град.')

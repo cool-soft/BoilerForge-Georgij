@@ -12,7 +12,6 @@ MODELS_DIR = "storage\\saved_models"
 MODEL_METRICS_FILENAME = "history"
 MODEL_FILE_SUFFIX = "_model"
 
-
 PREPROCESSED_DATASET_FILENAME_SUFFIX = ".pickle"
 
 NTC = 1
