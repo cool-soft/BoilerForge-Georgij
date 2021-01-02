@@ -10,7 +10,7 @@ from config import (
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
     HOMES_DELTAS_PATH
 )
-from utils.io_utils import load_dataset
+from dataset_utils.dataset_io import load_dataset
 from preprocess_utils import average_values
 
 

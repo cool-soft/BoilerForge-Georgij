@@ -11,14 +11,15 @@ from config import (
     BOILER_PREPROCESSED_DATASET_PATH,
     HOME_MIN_TEMP_COEFFICIENT
 )
-from utils.dataset_utils import create_time_series
-from utils.io_utils import (
-    load_dataset,
-    load_weather_dataset
+from preprocess_utils import filter_by_timestamp_closed
+from dataset_utils.dataset_train_preprocessing import create_time_series
+from dataset_utils.dataset_io import (
+    load_dataset
 )
+from weather_dataset_utils.weather_dataset_io import load_weather_dataset
 from simple_model_utils.simple_model_io import load_temp_correlation_table
-from utils.home_deltas_utils import load_homes_time_deltas
-from utils.t_graph_utils import load_t_graph
+from homes_time_deltas_utils.homes_deltas_io import load_homes_time_deltas
+from temp_graph_utils.temp_graph_io import load_temp_graph
 from predict_utils import plot_real_and_predicted, print_min_max_mean_delta
 
 
@@ -111,8 +112,9 @@ if __name__ == '__main__':
 
     homes_time_deltas = load_homes_time_deltas()
     optimized_t_table = load_temp_correlation_table(config.TEMP_CORRELATION_TABLE_PATH)
-    temp_graph = load_t_graph()
-    weather_df = load_weather_dataset(min_date, max_date)
+    temp_graph = load_temp_graph()
+    weather_df = load_weather_dataset(config.WEATHER_PREPROCESSED_DATASET_PATH)
+    weather_df = filter_by_timestamp_closed(weather_df, config.START_DATETIME, config.END_DATETIME)
     weather_t = weather_df["t1"].to_numpy()
 
     boiler_t_predictor = BoilerTPredictor()
@@ -128,7 +130,10 @@ if __name__ == '__main__':
     predicted_boiler_t = predicted_boiler_t_df["t1"].to_numpy()
     dates = predicted_boiler_t_df[column_names.SOFT_M_TIMESTAMP].to_list()
 
-    real_boiler_t_dataset = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
+    real_boiler_t_dataset = load_dataset(BOILER_PREPROCESSED_DATASET_PATH)
+    real_boiler_t_dataset = filter_by_timestamp_closed(
+        real_boiler_t_dataset, config.START_DATETIME, config.END_DATETIME
+    )
     real_boiler_t = real_boiler_t_dataset["t1"].to_numpy()
     start_t_idx = window_size - smooth_size - 1
     max_home_time_delta = homes_time_deltas["time_delta"].max()

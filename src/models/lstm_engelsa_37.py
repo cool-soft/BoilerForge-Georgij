@@ -6,14 +6,14 @@ from config import (
     BOILER_PREPROCESSED_DATASET_PATH,
     HOMES_PREPROCESSED_DATASETS_DIR
 )
-from utils.dataset_utils import (
+from dataset_utils.dataset_train_preprocessing import (
     get_between_dates,
     get_address_number_by_name,
     create_sequences_2,
     get_home_dataset_by_address_number
 )
-from utils.home_deltas_utils import get_timedelta_by_home_name
-from utils.io_utils import load_dataset
+from homes_time_deltas_utils.home_deltas_calculation import get_timedelta_by_home_name
+from dataset_utils.dataset_io import load_dataset
 from model_utils.model_io import get_model_save_name
 from model_utils.model_metrics import relative_error
 from model_utils.model_training import train_model

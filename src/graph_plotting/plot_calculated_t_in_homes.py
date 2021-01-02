@@ -1,28 +1,31 @@
 
 import os
+import pickle
 from datetime import datetime
 
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
+from column_names import SOFT_M_TIMESTAMP
 from config import (
     MODELS_DIR,
     PREDICTED_BOILER_TEMP_PATH,
     HOMES_DELTAS_PATH,
     WEATHER_PREPROCESSED_DATASET_PATH
 )
-from time_tick import TIME_TICK
-from column_names import SOFT_M_TIMESTAMP
-from utils.dataset_utils import create_time_series
-from utils.home_deltas_utils import load_homes_time_deltas
-from utils.io_utils import load_dataframe, load_dataset
+from homes_time_deltas_utils.homes_deltas_io import load_homes_time_deltas
 from model_utils.model_io import load_saved_model
 from model_utils.model_metrics import relative_error
-from utils.t_graph_utils import calc_need_t_in_home
-
+from preprocess_utils import filter_by_timestamp_closed
+from temp_graph_utils.temp_graph_calculation import calc_need_t_in_home
+from time_tick import TIME_TICK
+from dataset_utils.dataset_train_preprocessing import create_time_series
 
 # noinspection PyShadowingNames
+from weather_dataset_utils.weather_dataset_io import load_weather_dataset
+
+
 class HomesTCalc:
 
     def __init__(self):
@@ -78,7 +81,8 @@ class HomesTCalc:
         self._submodels = submodels
 
     def _load_predicted_boiler_t_df(self):
-        self._predicted_boiler_t_df = load_dataframe(self._predicted_boiler_t_path)
+        with open(self._predicted_boiler_t_path, "rb") as f:
+            self._predicted_boiler_t_df = pickle.load(f)
 
     def _calculate(self):
         calculated_t_dict = {}
@@ -139,12 +143,10 @@ if __name__ == '__main__':
 
     weather_start_date = boiler_start_date + ((homes_time_deltas["time_delta"].min() + start_idx_delta) * TIME_TICK)
     weather_end_date = boiler_end_date + ((homes_time_deltas["time_delta"].max() + smooth_size) * TIME_TICK)
-    weather_df = load_dataset(
-        WEATHER_PREPROCESSED_DATASET_PATH,
-        weather_start_date,
-        weather_end_date
-    )
+    weather_df = load_weather_dataset(WEATHER_PREPROCESSED_DATASET_PATH)
+    weather_df = filter_by_timestamp_closed(weather_df, weather_start_date, weather_end_date)
     weather_t = weather_df["t1"].to_numpy()
+    # TODO: this
     need_t = calc_need_t_in_home(weather_t)
 
     ax.plot(

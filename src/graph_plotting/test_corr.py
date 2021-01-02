@@ -4,7 +4,8 @@ import datetime
 from matplotlib import pyplot as plt
 import numpy as np
 
-from utils.io_utils import load_dataset
+from preprocess_utils import filter_by_timestamp_closed
+from dataset_utils.dataset_io import load_dataset
 from model_utils.model_io import load_saved_model
 from model_utils.model_metrics import relative_error
 from config import HOMES_PREPROCESSED_DATASETS_DIR
@@ -54,7 +55,8 @@ def main():
     start_idx = 0
     end_idx = window_size
 
-    df = load_dataset(f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{dataset_name}", min_date, max_date)
+    df = load_dataset(f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{dataset_name}")
+    df = filter_by_timestamp_closed(df, min_date, max_date)
     temp = df["t1"].to_numpy()
 
     sequences = create_window_sequences(temp, window_size)

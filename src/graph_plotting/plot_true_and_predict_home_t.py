@@ -8,13 +8,13 @@ from config import (
     HOMES_PREPROCESSED_DATASETS_DIR,
     PREPROCESSED_DATASET_FILENAME_SUFFIX
 )
-from utils.dataset_utils import create_sequences_smooth_delta
-from utils.home_deltas_utils import get_timedelta_by_home_name
-from utils.io_utils import load_dataset
+from dataset_utils.dataset_train_preprocessing import create_sequences_smooth_delta
+from homes_time_deltas_utils.home_deltas_calculation import get_timedelta_by_home_name
+from dataset_utils.dataset_io import load_dataset
 from model_utils.model_io import load_saved_model
 from model_utils.model_metrics import relative_error
 from predict_utils import plot_real_and_predicted
-from preprocess_utils import average_values
+from preprocess_utils import average_values, filter_by_timestamp_closed
 
 if __name__ == '__main__':
     min_date = datetime.datetime(2019, 2, 1, 0, 0, 0)
@@ -40,10 +40,12 @@ if __name__ == '__main__':
         }
     )
 
-    real_boiler_df = load_dataset(BOILER_PREPROCESSED_DATASET_PATH, min_date, max_date)
+    real_boiler_df = load_dataset(BOILER_PREPROCESSED_DATASET_PATH)
+    real_boiler_df = filter_by_timestamp_closed(real_boiler_df, min_date, max_date)
     real_boiler_t = real_boiler_df["t1"].to_numpy()
 
-    real_home_df = load_dataset(f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{address}{PREPROCESSED_DATASET_FILENAME_SUFFIX}", min_date, max_date)
+    real_home_df = load_dataset(f"{HOMES_PREPROCESSED_DATASETS_DIR}\\{address}{PREPROCESSED_DATASET_FILENAME_SUFFIX}")
+    real_home_df = filter_by_timestamp_closed(real_home_df, min_date, max_date)
     real_home_t = real_home_df["t1"].to_numpy()
 
     real_boiler_t, real_home_t = create_sequences_smooth_delta(real_boiler_t, real_home_t, window_size, delta, smooth_size)
