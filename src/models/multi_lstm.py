@@ -8,7 +8,7 @@ from keras.layers import (Dense, LSTM)
 from config import (
     BOILER_PREPROCESSED_DATASET_PATH,
     HOMES_PREPROCESSED_DATASETS_DIR,
-    HOMES_DELTAS_PATH,
+    HOMES_TIME_DELTAS_PATH,
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
     MODELS_DIR
 )
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     val_boiler_df = filter_by_timestamp_closed(boiler_df, val_min_date, val_max_date)
     val_boiler_t = val_boiler_df["t1"].to_numpy()
 
-    with open(HOMES_DELTAS_PATH) as f:
+    with open(HOMES_TIME_DELTAS_PATH) as f:
         homes_deltas = json.load(f)
 
     for dataset_filename in os.listdir(HOMES_PREPROCESSED_DATASETS_DIR):

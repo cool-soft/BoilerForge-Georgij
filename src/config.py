@@ -38,7 +38,7 @@ WEATHER_DATA_TIMEZONE = "Asia/Yekaterinburg"
 WEATHER_SRC_DATASET_PATH = "storage\\datasets\\src\\weather_data.json"
 WEATHER_PREPROCESSED_DATASET_PATH = "storage\\datasets\\preprocessed\\weather_temp.pickle"
 
-HOMES_DELTAS_PATH = "storage\\homes_time_delta.csv"
+HOMES_TIME_DELTAS_PATH = "storage\\homes_time_delta.csv"
 TEMP_CORRELATION_TABLE_PATH = "storage\\optimized_temp_table.pickle"
 
 TEMP_GRAPH_PATH = "storage\\temp_graph.csv"

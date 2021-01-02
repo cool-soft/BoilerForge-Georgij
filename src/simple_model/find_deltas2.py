@@ -8,7 +8,7 @@ from config import (
     HOMES_PREPROCESSED_DATASETS_DIR,
     BOILER_PREPROCESSED_DATASET_PATH,
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
-    HOMES_DELTAS_PATH
+    HOMES_TIME_DELTAS_PATH
 )
 from dataset_utils.dataset_io import load_dataset
 from preprocess_utils import average_values
@@ -58,7 +58,7 @@ def main():
         print("{}: {}".format(dataset_name, delta))
 
     homes_deltas = pd.DataFrame(deltas)
-    homes_deltas.to_csv(HOMES_DELTAS_PATH, index=False)
+    homes_deltas.to_csv(HOMES_TIME_DELTAS_PATH, index=False)
 
 
 if __name__ == '__main__':
