@@ -22,7 +22,7 @@ def get_boiler_max_idx(boiler_t):
     return boiler_max_idx
 
 
-def get_home_max_idxs(home_t, boiler_max_idx, max_delta):
+def get_home_max_indexes(home_t, boiler_max_idx, max_delta):
     rows_count = len(home_t)
     max_idx = 0
     for i in range(boiler_max_idx+1, min(boiler_max_idx + max_delta, rows_count)):
@@ -51,7 +51,7 @@ def main():
         df = load_dataset(dataset_path, min_date, max_date)
         t_in_home = df["t1"].to_numpy()
         t_in_home = average_values(t_in_home, t_in_homes_smooth_size)
-        home_max_idx = get_home_max_idxs(t_in_home, boiler_max_idx, max_delta)
+        home_max_idx = get_home_max_indexes(t_in_home, boiler_max_idx, max_delta)
         delta = home_max_idx-boiler_max_idx
 
         deltas.append({"home_name": dataset_name, "time_delta": delta})
