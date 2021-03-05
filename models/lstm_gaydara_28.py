@@ -14,9 +14,9 @@ from heating_system.dataset_utils.dataset_train_preprocessing import (
 )
 from heating_system.homes_time_deltas_utils.home_deltas_calculation import get_timedelta_by_home_name
 from heating_system.dataset_utils.dataset_io import load_dataset
-from heating_system.model_utils.model_io import get_model_save_name
-from heating_system.model_utils.model_metrics import relative_error
-from heating_system.model_utils.model_training import train_model
+from model_utils import get_model_save_name
+from model_utils.model_metrics import relative_error
+from model_utils import train_model
 
 
 # noinspection PyShadowingNames
