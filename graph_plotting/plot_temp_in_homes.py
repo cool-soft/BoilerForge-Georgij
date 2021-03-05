@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from dateutil.tz import gettz
 from pandas.plotting import register_matplotlib_converters
 
-import column_names
+from heating_system import column_names
 import config
 from heating_system.dataset_utils.dataset_io import load_dataset
 from heating_system.preprocess_utils import average_values, filter_by_timestamp_closed

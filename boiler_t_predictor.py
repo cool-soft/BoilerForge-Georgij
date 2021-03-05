@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 
-import column_names
+from heating_system import column_names
 import config
 
 from config import (
