@@ -2,7 +2,7 @@ import config
 from model_utils.model_metrics import relative_error
 
 # noinspection PyShadowingNames
-from simple_model_utils import TempCorrelationTableGenerator
+from model_utils.simple_model_utils.temp_correlation_table_generator import TempCorrelationTableGenerator
 
 if __name__ == '__main__':
     model_name = "multi_lstm_2020-09-14-21.22.12"

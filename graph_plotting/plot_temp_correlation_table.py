@@ -4,7 +4,7 @@ from pandas.plotting import register_matplotlib_converters
 
 import config
 import column_names
-from simple_model_utils.simple_model_io import load_temp_correlation_table
+from model_utils.simple_model_utils.simple_model_io import load_temp_correlation_table
 
 if __name__ == '__main__':
 

@@ -1,7 +1,7 @@
 import os
 
 import config
-from metrics_utils.metrics_io import save_model_metrics
+from model_utils.metrics_utils import save_model_metrics
 
 
 # noinspection PyShadowingNames

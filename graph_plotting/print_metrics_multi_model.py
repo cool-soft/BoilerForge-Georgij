@@ -1,4 +1,4 @@
-from metrics_utils import load_model_metrics
+from model_utils.metrics_utils import load_model_metrics
 import config
 import os
 
