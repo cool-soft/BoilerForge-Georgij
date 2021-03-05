@@ -3,9 +3,9 @@ import multiprocessing as mp
 import os
 
 import config
-from heating_system.homes_datasets_utils.home_data_interpolators.home_data_linear_interpolator import \
+from homes_datasets_utils.home_data_interpolators.home_data_linear_interpolator import \
     HomeDataLinearInterpolator
-from heating_system.homes_datasets_utils.home_data_parsers.soft_m_csv_home_data_parser import \
+from homes_datasets_utils import \
     SoftMCSVHomeDataParser
 from heating_system.preprocess_utils import filter_by_timestamp_closed
 

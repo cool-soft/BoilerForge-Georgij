@@ -7,7 +7,7 @@ from pandas.plotting import register_matplotlib_converters
 
 from heating_system import column_names
 import config
-from heating_system.dataset_utils.dataset_io import load_dataset
+from dataset_utils import load_dataset
 from heating_system.preprocess_utils import average_values, filter_by_timestamp_closed
 from heating_system.weather_dataset_utils.weather_dataset_io import load_weather_dataset
 
