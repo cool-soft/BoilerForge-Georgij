@@ -1,11 +1,11 @@
 import logging
 
 import config
-from boiler_dataset_utils.boiler_data_interpolators.boiler_data_linear_interpolator import \
+from heating_system.boiler_dataset_utils.boiler_data_interpolators.boiler_data_linear_interpolator import \
     BoilerDataLinearInterpolator
-from boiler_dataset_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import \
+from heating_system.boiler_dataset_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import \
     SoftMCSVBoilerDataParser
-from preprocess_utils import filter_by_timestamp_closed
+from heating_system.preprocess_utils import filter_by_timestamp_closed
 
 if __name__ == '__main__':
     logging.basicConfig(level="DEBUG")

@@ -12,14 +12,14 @@ from config import (
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
     MODELS_DIR
 )
-from dataset_utils.dataset_train_preprocessing import create_sequences_smooth_delta
-from dataset_utils.dataset_io import load_dataset
-from model_utils.model_io import get_model_save_name
-from model_utils.model_metrics import relative_error
-from preprocess_utils import filter_by_timestamp_closed
+from heating_system.dataset_utils.dataset_train_preprocessing import create_sequences_smooth_delta
+from heating_system.dataset_utils.dataset_io import load_dataset
+from heating_system.model_utils.model_io import get_model_save_name
+from heating_system.model_utils.model_metrics import relative_error
+from heating_system.preprocess_utils import filter_by_timestamp_closed
 
 # noinspection PyShadowingNames
-from model_utils.model_training import train_model
+from heating_system.model_utils.model_training import train_model
 
 
 # noinspection PyShadowingNames

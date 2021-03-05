@@ -1,4 +1,4 @@
-from metrics_utils.metrics_io import load_model_metrics
+from heating_system.metrics_utils.metrics_io import load_model_metrics
 import config
 import os
 

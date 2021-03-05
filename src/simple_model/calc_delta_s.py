@@ -5,7 +5,7 @@ from config import (
     BOILER_PREPROCESSED_DATASET_PATH
 )
 from scipy.integrate import trapz
-from dataset_utils.dataset_io import load_dataset
+from heating_system.dataset_utils.dataset_io import load_dataset
 
 if __name__ == '__main__':
     min_date = datetime(2019, 2, 5)

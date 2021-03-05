@@ -3,9 +3,9 @@ import os
 import logging
 
 import config
-from weather_dataset_utils.weather_data_interpolators.weather_data_linear_interpolator import \
+from heating_system.weather_dataset_utils.weather_data_interpolators.weather_data_linear_interpolator import \
     WeatherDataLinearInterpolator
-from weather_dataset_utils.weather_data_parsers.soft_m_json_weather_data_parser import \
+from heating_system.weather_dataset_utils.weather_data_parsers.soft_m_json_weather_data_parser import \
     SoftMJSONWeatherDataParser
 
 

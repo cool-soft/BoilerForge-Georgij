@@ -1,11 +1,11 @@
 import os
 
 import config
-from metrics_utils.metrics_io import save_model_metrics
+from heating_system.metrics_utils.metrics_io import save_model_metrics
 
 
 # noinspection PyShadowingNames
-from model_utils.model_io import get_model_save_cb
+from heating_system.model_utils.model_io import get_model_save_cb
 
 
 def train_model(

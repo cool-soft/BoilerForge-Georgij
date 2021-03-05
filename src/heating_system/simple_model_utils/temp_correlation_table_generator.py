@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 import config
-from model_utils.model_io import load_saved_model
+from heating_system.model_utils.model_io import load_saved_model
 
 
 class TempCorrelationTableGenerator:
@@ -65,7 +65,7 @@ class TempCorrelationTableGenerator:
     def _generate_control_t_pack(self):
         print("Generating available control t list")
 
-        t_count = math.ceil((self._max_control_t-self._min_control_t)/self._t_step)
+        t_count = math.ceil((self._max_control_t - self._min_control_t) / self._t_step)
         control_t_pack = np.empty(shape=(t_count, self._window_size))
         for i in range(t_count):
             control_t_pack[i, :] = self._min_control_t + (i * self._t_step)

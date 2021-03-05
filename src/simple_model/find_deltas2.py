@@ -10,8 +10,8 @@ from config import (
     PREPROCESSED_DATASET_FILENAME_SUFFIX,
     HOMES_TIME_DELTAS_PATH
 )
-from dataset_utils.dataset_io import load_dataset
-from preprocess_utils import average_values
+from heating_system.dataset_utils.dataset_io import load_dataset
+from heating_system.preprocess_utils import average_values
 
 
 def get_boiler_max_idx(boiler_t):

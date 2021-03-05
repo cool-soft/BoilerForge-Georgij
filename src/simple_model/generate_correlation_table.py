@@ -1,8 +1,8 @@
 import config
-from model_utils.model_metrics import relative_error
+from heating_system.model_utils.model_metrics import relative_error
 
 # noinspection PyShadowingNames
-from simple_model_utils.temp_correlation_table_generator import TempCorrelationTableGenerator
+from heating_system.simple_model_utils.temp_correlation_table_generator import TempCorrelationTableGenerator
 
 if __name__ == '__main__':
     model_name = "multi_lstm_2020-09-14-21.22.12"

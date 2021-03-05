@@ -1,6 +1,6 @@
 import config
-from metrics_utils.metrics_plotter import MetricsPlotter
-from metrics_utils.metrics_io import load_model_metrics
+from heating_system.metrics_utils.metrics_plotter import MetricsPlotter
+from heating_system.metrics_utils.metrics_io import load_model_metrics
 
 if __name__ == '__main__':
     # model_name = "lstm_4_2020-06-16-19.43.24"
