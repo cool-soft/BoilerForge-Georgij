@@ -17,11 +17,13 @@ if __name__ == '__main__':
     boiler_data_parser.set_timestamp_parse_patterns(config.BOILER_TIMESTAMP_PATTERNS)
     boiler_data_parser.set_timestamp_timezone_name(config.BOILER_DATA_TIMEZONE)
 
+    boiler_data_interpolator = BoilerDataLinearInterpolator()
+    boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
+
     with open(config.BOILER_SRC_DATASET_PATH, encoding="UTF-8") as f:
         boiler_df = boiler_data_parser.parse_boiler_data(f)
 
-    boiler_data_interpolator = BoilerDataLinearInterpolator()
-    boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
+    print()
 
     boiler_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
     del boiler_heating_circuit_df[column_names.CIRCUIT_ID]

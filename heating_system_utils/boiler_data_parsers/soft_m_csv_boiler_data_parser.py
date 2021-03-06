@@ -22,9 +22,30 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
         self._disabled_temp_threshold = 0
 
         self._need_circuits = (circuits_id.HEATING_CIRCUIT, circuits_id.WATER_CIRCUIT)
+
+        self._need_to_float_convert_columns = (
+            column_names.FORWARD_PIPE_COOLANT_TEMP,
+            column_names.BACKWARD_PIPE_COOLANT_TEMP,
+            column_names.FORWARD_PIPE_COOLANT_VOLUME,
+            column_names.BACKWARD_PIPE_COOLANT_VOLUME,
+            column_names.FORWARD_PIPE_COOLANT_PRESSURE,
+            column_names.BACKWARD_PIPE_COOLANT_PRESSURE
+        )
+
         self._circuits_equal_id = {
             soft_m_circuits_id.WATER_CIRCUIT: circuits_id.WATER_CIRCUIT,
             soft_m_circuits_id.HEATING_CIRCUIT: circuits_id.HEATING_CIRCUIT
+        }
+
+        self._columns_equal_names = {
+            soft_m_column_names.TIMESTAMP: column_names.TIMESTAMP,
+            soft_m_column_names.CIRCUIT_ID: column_names.CIRCUIT_ID,
+            soft_m_column_names.FORWARD_PIPE_COOLANT_TEMP: column_names.FORWARD_PIPE_COOLANT_TEMP,
+            soft_m_column_names.BACKWARD_PIPE_COOLANT_TEMP: column_names.BACKWARD_PIPE_COOLANT_TEMP,
+            soft_m_column_names.FORWARD_PIPE_COOLANT_VOLUME: column_names.FORWARD_PIPE_COOLANT_VOLUME,
+            soft_m_column_names.BACKWARD_PIPE_COOLANT_VOLUME: column_names.BACKWARD_PIPE_COOLANT_VOLUME,
+            soft_m_column_names.FORWARD_PIPE_COOLANT_PRESSURE: column_names.FORWARD_PIPE_COOLANT_PRESSURE,
+            soft_m_column_names.BACKWARD_PIPE_COOLANT_PRESSURE: column_names.BACKWARD_PIPE_COOLANT_PRESSURE
         }
 
     def set_timestamp_timezone_name(self, timezone_name):
@@ -45,7 +66,7 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
 
         self._logger.debug("Parsing data")
 
-        self._rename_columns(boiler_df)
+        boiler_df.rename(columns=self._columns_equal_names, inplace=True)
         boiler_df = self._exclude_unused_columns(boiler_df)
         self._rename_circuits(boiler_df)
         boiler_df = self._exclude_unused_circuits(boiler_df)
@@ -55,6 +76,45 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
         self._exclude_extremes_cold_water_temp(boiler_df)
 
         return boiler_df
+
+    # noinspection PyMethodMayBeStatic
+    def _exclude_unused_columns(self, boiler_df):
+        boiler_df = boiler_df[[
+            column_names.TIMESTAMP,
+            column_names.CIRCUIT_ID,
+            column_names.FORWARD_PIPE_COOLANT_TEMP,
+            column_names.BACKWARD_PIPE_COOLANT_TEMP,
+            column_names.FORWARD_PIPE_COOLANT_VOLUME,
+            column_names.BACKWARD_PIPE_COOLANT_VOLUME,
+            column_names.FORWARD_PIPE_COOLANT_PRESSURE,
+            column_names.BACKWARD_PIPE_COOLANT_PRESSURE
+        ]]
+        return boiler_df
+
+    # noinspection PyMethodMayBeStatic
+    def _rename_circuits(self, boiler_df):
+        boiler_df[column_names.CIRCUIT_ID] = boiler_df[column_names.CIRCUIT_ID].apply(
+            lambda soft_m_circuit: self._circuits_equal_id.get(soft_m_circuit, soft_m_circuit)
+        )
+
+    def _exclude_unused_circuits(self, boiler_df):
+        boiler_df = boiler_df[boiler_df[column_names.CIRCUIT_ID].isin(self._need_circuits)]
+        return boiler_df
+
+    def _parse_datetime(self, boiler_df):
+        boiler_data_timezone = gettz(self._timestamp_timezone_name)
+        boiler_df[column_names.TIMESTAMP] = boiler_df[column_names.TIMESTAMP].apply(
+            lambda datetime_as_str: parse_datetime(
+                datetime_as_str,
+                self._timestamp_parse_patterns,
+                boiler_data_timezone
+            )
+        )
+
+    # noinspection PyMethodMayBeStatic
+    def _convert_values_to_float_right(self, boiler_df):
+        for column_name in self._need_to_float_convert_columns:
+            boiler_df[column_name] = boiler_df[column_name].apply(float_converter)
 
     # noinspection PyMethodMayBeStatic
     def _divide_extremes_hot_water_temp(self, boiler_df):
@@ -74,67 +134,3 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
         )
         for column_name in need_to_divide_columns:
             boiler_df[column_name] = boiler_df[boiler_df[column_name] > self._disabled_temp_threshold]
-
-    # noinspection PyMethodMayBeStatic
-    def _convert_values_to_float_right(self, boiler_df):
-        need_to_convert_columns = (
-            column_names.FORWARD_PIPE_COOLANT_TEMP,
-            column_names.BACKWARD_PIPE_COOLANT_TEMP,
-            column_names.FORWARD_PIPE_COOLANT_VOLUME,
-            column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-            column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-            column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-        )
-
-        for column_name in need_to_convert_columns:
-            boiler_df[column_name] = boiler_df[column_name].apply(float_converter)
-
-    def _parse_datetime(self, boiler_df):
-        boiler_data_timezone = gettz(self._timestamp_timezone_name)
-        boiler_df[column_names.TIMESTAMP] = boiler_df[column_names.TIMESTAMP].apply(
-            lambda datetime_as_str: parse_datetime(
-                datetime_as_str,
-                self._timestamp_parse_patterns,
-                boiler_data_timezone
-            )
-        )
-
-    # noinspection PyMethodMayBeStatic
-    def _exclude_unused_columns(self, boiler_df):
-        boiler_df = boiler_df[[
-            column_names.TIMESTAMP,
-            column_names.CIRCUIT_ID,
-            column_names.FORWARD_PIPE_COOLANT_TEMP,
-            column_names.BACKWARD_PIPE_COOLANT_TEMP,
-            column_names.FORWARD_PIPE_COOLANT_VOLUME,
-            column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-            column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-            column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-        ]]
-        return boiler_df
-
-    # noinspection PyMethodMayBeStatic
-    def _rename_columns(self, boiler_df):
-        boiler_df.rename(
-            columns={
-                soft_m_column_names.TIMESTAMP: column_names.TIMESTAMP,
-                soft_m_column_names.CIRCUIT_ID: column_names.CIRCUIT_ID,
-                soft_m_column_names.FORWARD_PIPE_COOLANT_TEMP: column_names.FORWARD_PIPE_COOLANT_TEMP,
-                soft_m_column_names.BACKWARD_PIPE_COOLANT_TEMP: column_names.BACKWARD_PIPE_COOLANT_TEMP,
-                soft_m_column_names.FORWARD_PIPE_COOLANT_VOLUME: column_names.FORWARD_PIPE_COOLANT_VOLUME,
-                soft_m_column_names.BACKWARD_PIPE_COOLANT_VOLUME: column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-                soft_m_column_names.FORWARD_PIPE_COOLANT_PRESSURE: column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-                soft_m_column_names.BACKWARD_PIPE_COOLANT_PRESSURE: column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-            },
-            inplace=True
-        )
-
-    # noinspection PyMethodMayBeStatic
-    def _rename_circuits(self, boiler_df):
-        boiler_df[column_names.CIRCUIT_ID] = boiler_df[column_names.CIRCUIT_ID].apply(
-            lambda soft_m_circuit: self._circuits_equal_id.get(soft_m_circuit, soft_m_circuit)
-        )
-
-    def _exclude_unused_circuits(self, boiler_df):
-        boiler_df = boiler_df[boiler_df[column_names.CIRCUIT_ID].isin(self._need_circuits)]
-        return boiler_df
