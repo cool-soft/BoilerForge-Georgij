@@ -13,7 +13,6 @@ if __name__ == '__main__':
     logging.basicConfig(level="DEBUG")
 
     boiler_data_parser = SoftMCSVBoilerDataParser()
-    boiler_data_parser.set_disabled_temp_threshold(config.BOILER_DISABLED_TEMP_THRESHOLD)
     boiler_data_parser.set_timestamp_parse_patterns(config.BOILER_TIMESTAMP_PATTERNS)
     boiler_data_parser.set_timestamp_timezone_name(config.BOILER_DATA_TIMEZONE)
 
@@ -60,5 +59,3 @@ if __name__ == '__main__':
 
     logging.debug("Saving water circuit df to {}".format(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH))
     boiler_water_circuit_df.to_pickle(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH)
-
-    print()
