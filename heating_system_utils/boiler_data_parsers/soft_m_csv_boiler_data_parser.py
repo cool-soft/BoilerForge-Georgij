@@ -47,8 +47,8 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
 
         self._rename_columns(boiler_df)
         boiler_df = self._exclude_unused_columns(boiler_df)
+        self._rename_circuits(boiler_df)
         boiler_df = self._exclude_unused_circuits(boiler_df)
-        self._rename_circuit_id(boiler_df)
         self._parse_datetime(boiler_df)
         self._convert_values_to_float_right(boiler_df)
         self._divide_extremes_hot_water_temp(boiler_df)
@@ -130,16 +130,11 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
         )
 
     # noinspection PyMethodMayBeStatic
-    def _rename_circuit_id(self, boiler_df):
+    def _rename_circuits(self, boiler_df):
         boiler_df[column_names.CIRCUIT_ID] = boiler_df[column_names.CIRCUIT_ID].apply(
-            lambda soft_m_circuit: self._circuits_equal_id[soft_m_circuit]
+            lambda soft_m_circuit: self._circuits_equal_id.get(soft_m_circuit, soft_m_circuit)
         )
 
     def _exclude_unused_circuits(self, boiler_df):
-        need_circuit_original_id = []
-        for original_id, target_id in self._circuits_equal_id.items():
-            if target_id in self._need_circuits:
-                need_circuit_original_id.append(original_id)
-
-        boiler_df = boiler_df[boiler_df[column_names.CIRCUIT_ID].isin(need_circuit_original_id)]
+        boiler_df = boiler_df[boiler_df[column_names.CIRCUIT_ID].isin(self._need_circuits)]
         return boiler_df
