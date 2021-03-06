@@ -79,6 +79,8 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
 
     # noinspection PyMethodMayBeStatic
     def _exclude_unused_columns(self, boiler_df):
+        self._logger.debug("Excluding unused columns")
+
         boiler_df = boiler_df[[
             column_names.TIMESTAMP,
             column_names.CIRCUIT_ID,
@@ -93,15 +95,21 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
 
     # noinspection PyMethodMayBeStatic
     def _rename_circuits(self, boiler_df):
+        self._logger.debug("Renaming circuits")
+
         boiler_df[column_names.CIRCUIT_ID] = boiler_df[column_names.CIRCUIT_ID].apply(
             lambda soft_m_circuit: self._circuits_equal_id.get(soft_m_circuit, soft_m_circuit)
         )
 
     def _exclude_unused_circuits(self, boiler_df):
+        self._logger.debug("Excluding unused circuits")
+
         boiler_df = boiler_df[boiler_df[column_names.CIRCUIT_ID].isin(self._need_circuits)]
         return boiler_df
 
     def _parse_datetime(self, boiler_df: pd.DataFrame):
+        self._logger.debug("Parsing datetime")
+
         boiler_data_timezone = gettz(self._timestamp_timezone_name)
         boiler_df[column_names.TIMESTAMP] = boiler_df[column_names.TIMESTAMP].apply(
             parse_datetime, args=(self._timestamp_parse_patterns, boiler_data_timezone)
@@ -109,11 +117,15 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
 
     # noinspection PyMethodMayBeStatic
     def _convert_values_to_float_right(self, boiler_df):
+        self._logger.debug("Converting values to float")
+
         for column_name in self._need_to_float_convert_columns:
             boiler_df[column_name] = boiler_df[column_name].apply(float_converter)
 
     # noinspection PyMethodMayBeStatic
     def _divide_incorrect_hot_water_temp(self, boiler_df):
+        self._logger.debug("Dividing incorrect water temp")
+
         for column_name in self._water_temp_columns:
             boiler_df[column_name] = boiler_df[column_name].apply(
                 lambda water_temp: water_temp > 120 and water_temp / 100 or water_temp

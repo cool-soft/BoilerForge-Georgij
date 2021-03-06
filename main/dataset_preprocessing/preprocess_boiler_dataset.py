@@ -22,8 +22,6 @@ if __name__ == '__main__':
     with open(config.BOILER_SRC_DATASET_PATH, encoding="UTF-8") as f:
         boiler_df = boiler_data_parser.parse_boiler_data(f)
 
-    print()
-
     boiler_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
     del boiler_heating_circuit_df[column_names.CIRCUIT_ID]
     boiler_heating_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
