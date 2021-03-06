@@ -37,35 +37,32 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
             end_datetime=None,
             inplace=False
     ) -> pd.DataFrame:
-        self._logger.debug("Requested data interpolating")
+        self._logger.debug("Interpolating is requested")
 
         if not inplace:
             boiler_df = boiler_df.copy()
 
-        boiler_df = self._interpolate_datetime(boiler_df, end_datetime, start_datetime)
-        self._interpolate_boiler_data(boiler_df)
-
-        # boiler_df = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
-
-        return boiler_df
-
-    def _interpolate_datetime(self, boiler_df, start_datetime, end_datetime):
-        self._logger.debug("Interpolating datetime")
-
         self._round_datetime(boiler_df)
+
         boiler_df = self._interpolate_border_datetime(boiler_df, start_datetime, end_datetime)
         boiler_df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
         boiler_df = self._interpolate_passes_of_datetime(boiler_df)
+
+        self._interpolate_border_data(boiler_df)
+        self._interpolate_passes_of_data(boiler_df)
+
         return boiler_df
 
-    # noinspection PyMethodMayBeStatic
     def _round_datetime(self, boiler_df):
+        self._logger.debug("Rounding datetime")
+
         interpolations_step_in_seconds = self._interpolation_step.total_seconds()
         boiler_df[column_names.TIMESTAMP] = boiler_df[column_names.TIMESTAMP].apply(
             lambda datetime_: round_datetime(datetime_, interpolations_step_in_seconds)
         )
         boiler_df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
 
+    # noinspection PyMethodMayBeStatic
     def _interpolate_border_datetime(self, boiler_df: pd.DataFrame, start_datetime, end_datetime):
         self._logger.debug("Interpolating border datetime values")
 
@@ -112,16 +109,7 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
 
         return boiler_df
 
-    def _interpolate_boiler_data(self, boiler_df: pd.DataFrame):
-        self._logger.debug("Interpolating data")
-
-        self._interpolate_border_values(boiler_df)
-
-        self._logger.debug("Interpolating passes of data")
-        for column_to_interpolate in self._columns_to_interpolate:
-            boiler_df[column_to_interpolate].interpolate(inplace=True)
-
-    def _interpolate_border_values(self, boiler_df):
+    def _interpolate_border_data(self, boiler_df):
         self._logger.debug("Interpolating border data values")
 
         first_datetime_index = boiler_df[column_names.TIMESTAMP].idxmin()
@@ -131,9 +119,14 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
             first_valid_index = boiler_df[column_to_interpolate].first_valid_index()
             if first_valid_index != first_datetime_index:
                 first_valid_value = boiler_df.loc[first_valid_index, column_to_interpolate]
-                boiler_df.loc[first_datetime_index, [column_to_interpolate]] = first_valid_value
+                boiler_df.loc[first_datetime_index, column_to_interpolate] = first_valid_value
 
             last_valid_index = boiler_df[column_to_interpolate].last_valid_index()
             if last_valid_index != last_datetime_index:
                 last_valid_value = boiler_df.loc[last_valid_index, column_to_interpolate]
-                boiler_df.loc[last_datetime_index, [column_to_interpolate]] = last_valid_value
+                boiler_df.loc[last_datetime_index, column_to_interpolate] = last_valid_value
+
+    def _interpolate_passes_of_data(self, boiler_df):
+        self._logger.debug("Interpolating passes of data")
+        for column_to_interpolate in self._columns_to_interpolate:
+            boiler_df[column_to_interpolate].interpolate(inplace=True)
