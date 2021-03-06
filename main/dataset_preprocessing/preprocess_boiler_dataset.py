@@ -23,7 +23,8 @@ if __name__ == '__main__':
     boiler_data_interpolator = BoilerDataLinearInterpolator()
     boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
 
-    boiler_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT]
+    boiler_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
+    del boiler_heating_circuit_df[column_names.CIRCUIT_ID]
     boiler_heating_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
         boiler_heating_circuit_df,
         start_datetime=config.START_DATETIME,
@@ -38,9 +39,10 @@ if __name__ == '__main__':
     )
 
     logging.debug("Saving heating circuit df to {}".format(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH))
-    boiler_df.to_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
+    boiler_heating_circuit_df.to_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
 
-    boiler_water_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.WATER_CIRCUIT]
+    boiler_water_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.WATER_CIRCUIT].copy()
+    del boiler_water_circuit_df[column_names.CIRCUIT_ID]
     boiler_water_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
         boiler_water_circuit_df,
         start_datetime=config.START_DATETIME,
@@ -56,3 +58,5 @@ if __name__ == '__main__':
 
     logging.debug("Saving water circuit df to {}".format(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH))
     boiler_water_circuit_df.to_pickle(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH)
+
+    print()
