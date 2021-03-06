@@ -2,7 +2,8 @@ import logging
 
 import pandas as pd
 
-from heating_system import column_names, time_tick
+from heating_system_utils.constants import column_names
+from heating_system import time_tick
 from heating_system.preprocess_utils import round_datetime
 from .boiler_data_interpolator import BoilerDataInterpolator
 
@@ -12,12 +13,22 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
     def __init__(self):
         self._logger = logging.getLogger(self.__class__.__name__)
         self._logger.debug("Creating instance of the service")
+        self._need_to_interpolate_columns = [
+            column_names.FORWARD_PIPE_COOLANT_TEMP,
+            column_names.BACKWARD_PIPE_COOLANT_TEMP,
+            column_names.FORWARD_PIPE_COOLANT_VOLUME,
+            column_names.BACKWARD_PIPE_COOLANT_VOLUME,
+            column_names.FORWARD_PIPE_COOLANT_PRESSURE,
+            column_names.BACKWARD_PIPE_COOLANT_PRESSURE
+        ]
 
-    def interpolate_boiler_data(self,
-                                boiler_df: pd.DataFrame,
-                                start_datetime=None,
-                                end_datetime=None,
-                                inplace=False) -> pd.DataFrame:
+    def interpolate_boiler_data(
+        self,
+        boiler_df: pd.DataFrame,
+        start_datetime=None,
+        end_datetime=None,
+        inplace=False
+    ) -> pd.DataFrame:
         self._logger.debug("Requested data interpolating")
 
         time_tick_in_seconds = time_tick.TIME_TICK.total_seconds()

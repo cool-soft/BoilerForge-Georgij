@@ -3,7 +3,7 @@ import multiprocessing as mp
 import os
 
 import config
-from homes_datasets_utils.home_data_interpolators.home_data_linear_interpolator import \
+from heating_system_datasets_utils.home_data_interpolators import \
     HomeDataLinearInterpolator
 from homes_datasets_utils import \
     SoftMCSVHomeDataParser
