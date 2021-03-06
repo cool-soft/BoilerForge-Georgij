@@ -1,9 +1,9 @@
 import logging
 
 import config
-from boiler_dataset_utils import \
+from boiler_dataset_utils.boiler_data_interpolators.boiler_data_linear_interpolator import \
     BoilerDataLinearInterpolator
-from boiler_dataset_utils import \
+from boiler_dataset_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import \
     SoftMCSVBoilerDataParser
 from heating_system.preprocess_utils import filter_by_timestamp_closed
 
