@@ -15,6 +15,7 @@ if __name__ == '__main__':
     boiler_data_parser = SoftMCSVBoilerDataParser()
     boiler_data_parser.set_timestamp_parse_patterns(config.BOILER_TIMESTAMP_PATTERNS)
     boiler_data_parser.set_timestamp_timezone_name(config.BOILER_DATA_TIMEZONE)
+    boiler_data_parser.set_need_circuits([circuits_id.HEATING_CIRCUIT])
 
     boiler_data_interpolator = BoilerDataLinearInterpolator()
     boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
@@ -40,20 +41,20 @@ if __name__ == '__main__':
     logging.debug("Saving heating circuit df to {}".format(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH))
     boiler_heating_circuit_df.to_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
 
-    boiler_water_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.WATER_CIRCUIT].copy()
-    del boiler_water_circuit_df[column_names.CIRCUIT_ID]
-    boiler_water_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
-        boiler_water_circuit_df,
-        start_datetime=config.START_DATETIME,
-        end_datetime=config.END_DATETIME,
-        inplace=True
-    )
-
-    boiler_water_circuit_df = filter_by_timestamp_closed(
-        boiler_water_circuit_df,
-        config.START_DATETIME,
-        config.END_DATETIME
-    )
-
-    logging.debug("Saving water circuit df to {}".format(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH))
-    boiler_water_circuit_df.to_pickle(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH)
+    # boiler_water_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.WATER_CIRCUIT].copy()
+    # del boiler_water_circuit_df[column_names.CIRCUIT_ID]
+    # boiler_water_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
+    #     boiler_water_circuit_df,
+    #     start_datetime=config.START_DATETIME,
+    #     end_datetime=config.END_DATETIME,
+    #     inplace=True
+    # )
+    #
+    # boiler_water_circuit_df = filter_by_timestamp_closed(
+    #     boiler_water_circuit_df,
+    #     config.START_DATETIME,
+    #     config.END_DATETIME
+    # )
+    #
+    # logging.debug("Saving water circuit df to {}".format(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH))
+    # boiler_water_circuit_df.to_pickle(config.BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH)
