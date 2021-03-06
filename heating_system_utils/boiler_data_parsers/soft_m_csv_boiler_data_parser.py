@@ -66,7 +66,6 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
         boiler_df = pd.read_csv(boiler_data, sep=";", low_memory=False)
 
         self._logger.debug("Parsing data")
-
         boiler_df.rename(columns=self._columns_equal_names, inplace=True)
         boiler_df = self._exclude_unused_columns(boiler_df)
         self._rename_circuits(boiler_df)
