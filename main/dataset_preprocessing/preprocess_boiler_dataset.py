@@ -1,6 +1,7 @@
 import logging
 
 import config
+from heating_system import time_tick
 from heating_system_utils.boiler_data_interpolators.boiler_data_linear_interpolator import \
     BoilerDataLinearInterpolator
 from heating_system_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import \
@@ -20,14 +21,15 @@ if __name__ == '__main__':
         boiler_df = boiler_data_parser.parse_boiler_data(f)
 
     boiler_data_interpolator = BoilerDataLinearInterpolator()
+    boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
 
     boiler_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT]
-    # boiler_heating_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
-    #     boiler_heating_circuit_df,
-    #     start_datetime=config.START_DATETIME,
-    #     end_datetime=config.END_DATETIME,
-    #     inplace=True
-    # )
+    boiler_heating_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
+        boiler_heating_circuit_df,
+        start_datetime=config.START_DATETIME,
+        end_datetime=config.END_DATETIME,
+        inplace=True
+    )
 
     boiler_heating_circuit_df = filter_by_timestamp_closed(
         boiler_heating_circuit_df,
@@ -39,12 +41,12 @@ if __name__ == '__main__':
     boiler_df.to_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
 
     boiler_water_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.WATER_CIRCUIT]
-    # boiler_water_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
-    #     boiler_water_circuit_df,
-    #     start_datetime=config.START_DATETIME,
-    #     end_datetime=config.END_DATETIME,
-    #     inplace=True
-    # )
+    boiler_water_circuit_df = boiler_data_interpolator.interpolate_boiler_data(
+        boiler_water_circuit_df,
+        start_datetime=config.START_DATETIME,
+        end_datetime=config.END_DATETIME,
+        inplace=True
+    )
 
     boiler_water_circuit_df = filter_by_timestamp_closed(
         boiler_water_circuit_df,
