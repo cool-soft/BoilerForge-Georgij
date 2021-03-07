@@ -87,24 +87,24 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
     def _interpolate_passes_of_datetime(self, boiler_df: pd.DataFrame):
         self._logger.debug("Interpolating passes of datetime")
 
-        inserted_datetime = []
+        datetime_to_insert = []
         previous_datetime = None
-        for index, row in boiler_df.iterrows():
+        for timestamp in boiler_df[column_names.TIMESTAMP].to_list():
             if previous_datetime is None:
-                previous_datetime = row[column_names.TIMESTAMP]
+                previous_datetime = timestamp
                 continue
-            next_datetime = row[column_names.TIMESTAMP]
+            next_datetime = timestamp
 
             current_datetime = previous_datetime + self._interpolation_step
             while current_datetime < next_datetime:
-                inserted_datetime.append({
+                datetime_to_insert.append({
                     column_names.TIMESTAMP: current_datetime
                 })
                 current_datetime += self._interpolation_step
 
             previous_datetime = next_datetime
 
-        boiler_df = boiler_df.append(inserted_datetime, ignore_index=True)
+        boiler_df = boiler_df.append(datetime_to_insert, ignore_index=True)
         boiler_df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
 
         return boiler_df
