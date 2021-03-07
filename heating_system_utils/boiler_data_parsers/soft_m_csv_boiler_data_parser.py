@@ -62,6 +62,12 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
     def set_need_columns(self, need_columns):
         self._need_columns = need_columns
 
+    def set_column_names_equals(self, column_names_equals):
+        self._column_names_equals = column_names_equals
+
+    def set_circuit_id_equals(self, circuit_id_equals):
+        self._circuit_id_equals = circuit_id_equals
+
     def parse(self, data):
         self._logger.debug("Loading data")
         df = pd.read_csv(data, sep=";", low_memory=False)
