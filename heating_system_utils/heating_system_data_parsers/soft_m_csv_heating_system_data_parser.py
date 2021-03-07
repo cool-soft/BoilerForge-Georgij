@@ -78,6 +78,7 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
         self._logger.debug("Parsing data")
         self._rename_columns(df)
         df = self._exclude_unused_columns(df)
+        self._convert_circuits_id_to_str(df)
         self._rename_circuits(df)
         df = self._exclude_unused_circuits(df)
         self._parse_datetime(df)
@@ -125,15 +126,17 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
     # noinspection PyMethodMayBeStatic
     def _convert_values_to_float_right(self, df):
         self._logger.debug("Converting values to float")
-
         for column_name in self._need_to_float_convert_columns:
             df[column_name] = df[column_name].apply(float_converter)
 
     # noinspection PyMethodMayBeStatic
     def _divide_incorrect_hot_water_temp(self, df):
         self._logger.debug("Dividing incorrect water temp")
-
         for column_name in self._water_temp_columns:
             df[column_name] = df[column_name].apply(
                 lambda water_temp: water_temp > 120 and water_temp / 100 or water_temp
             )
+
+    def _convert_circuits_id_to_str(self, df: pd.DataFrame):
+        self._logger.debug("Converting circuits id to str")
+        df[column_names.CIRCUIT_ID] = df[column_names.CIRCUIT_ID].apply(str)
