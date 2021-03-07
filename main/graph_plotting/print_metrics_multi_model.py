@@ -1,5 +1,5 @@
 from model_utils.metrics_utils import load_model_metrics
-import config
+from main import config
 import os
 
 

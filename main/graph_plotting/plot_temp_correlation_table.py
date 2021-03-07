@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
-import config
+from main import config
 from heating_system import column_names
 from model_utils.simple_model_utils.simple_model_io import load_temp_correlation_table
 

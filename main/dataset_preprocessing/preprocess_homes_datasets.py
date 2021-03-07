@@ -2,7 +2,7 @@ import logging
 import multiprocessing as mp
 import os
 
-import config
+from main import config
 from heating_system_datasets_utils.home_data_interpolators import \
     HomeDataLinearInterpolator
 from homes_datasets_utils import \

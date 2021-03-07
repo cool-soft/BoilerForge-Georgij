@@ -1,4 +1,4 @@
-import config
+from main import config
 from model_utils.metrics_utils import MetricsPlotter
 from model_utils.metrics_utils import load_model_metrics
 

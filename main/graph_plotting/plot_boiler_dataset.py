@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from dateutil.tz import gettz
 from pandas.plotting import register_matplotlib_converters
 
-import config
+from main import config
 from heating_system_utils.constants import column_names
 from heating_system.preprocess_utils import average_values, filter_by_timestamp_closed
 from heating_system_utils.boiler_dataset_io import load_dataset
