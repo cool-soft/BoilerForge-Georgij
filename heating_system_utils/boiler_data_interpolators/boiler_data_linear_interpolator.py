@@ -56,10 +56,8 @@ class BoilerDataLinearInterpolator(BoilerDataInterpolator):
     def _round_datetime(self, boiler_df):
         self._logger.debug("Rounding datetime")
 
-        interpolations_step_in_seconds = self._interpolation_step.total_seconds()
-        boiler_df[column_names.TIMESTAMP] = boiler_df[column_names.TIMESTAMP].apply(
-            lambda datetime_: round_datetime(datetime_, interpolations_step_in_seconds)
-        )
+        interpolations_step_in_seconds = int(self._interpolation_step.total_seconds())
+        boiler_df[column_names.TIMESTAMP].dt.round(f"{interpolations_step_in_seconds}s")
         boiler_df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
 
     # noinspection PyMethodMayBeStatic
