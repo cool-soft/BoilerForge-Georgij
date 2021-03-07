@@ -56,6 +56,9 @@ class SoftMCSVBoilerDataParser(BoilerDataParser):
     def set_timestamp_parse_patterns(self, patterns):
         self._timestamp_parse_patterns = patterns
 
+    def set_need_to_float_convert_columns(self, columns):
+        self._need_to_float_convert_columns = columns
+
     def set_need_circuits(self, need_circuits):
         self._need_circuits = need_circuits
 

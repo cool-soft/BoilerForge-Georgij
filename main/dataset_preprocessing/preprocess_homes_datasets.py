@@ -2,12 +2,12 @@ import logging
 import multiprocessing as mp
 import os
 
-from main import config
-from heating_system_datasets_utils.home_data_interpolators import \
-    HomeDataLinearInterpolator
-from homes_datasets_utils import \
-    SoftMCSVHomeDataParser
+from heating_system import time_tick
 from heating_system.preprocess_utils import filter_by_timestamp_closed
+from heating_system_utils.boiler_data_interpolators.boiler_data_linear_interpolator import BoilerDataLinearInterpolator
+from heating_system_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import SoftMCSVBoilerDataParser
+from heating_system_utils.constants import column_names, circuits_id
+from main import config
 
 
 def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_src_path, home_dataset_dst_path):
@@ -17,37 +17,46 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
     home_dataset_dst_path = os.path.abspath(home_dataset_dst_path)
 
     logging.info(f"Processing {home_dataset_src_path}")
-    with open(home_dataset_src_path, encoding="UTF-8") as f:
-        home_df = home_data_parser.parse_home_data(f)
 
-    home_df = filter_by_timestamp_closed(home_df, config.START_DATETIME, config.END_DATETIME)
+    with open(config.BOILER_SRC_DATASET_PATH, encoding="UTF-8") as f:
+        boiler_df = home_data_parser.parse(f)
 
-    home_df = home_data_interpolator.interpolate_boiler_data(
-        home_df,
+    home_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
+    del home_heating_circuit_df[column_names.CIRCUIT_ID]
+    home_heating_circuit_df = home_data_interpolator.interpolate_data(
+        home_heating_circuit_df,
         start_datetime=config.START_DATETIME,
         end_datetime=config.END_DATETIME,
         inplace=True
     )
-
-    logging.info(f"Saving to {home_dataset_dst_path}")
-    home_df.to_pickle(home_dataset_dst_path)
+    home_heating_circuit_df = filter_by_timestamp_closed(
+        home_heating_circuit_df,
+        config.START_DATETIME,
+        config.END_DATETIME
+    )
+    logging.debug("Saving heating circuit df to {}".format(home_dataset_dst_path))
+    home_heating_circuit_df.to_pickle(home_dataset_dst_path)
 
 
 def main():
     logging.basicConfig(level="DEBUG")
 
-    home_data_parser = SoftMCSVHomeDataParser()
-    home_data_parser.set_ntc(config.NTC)
-    home_data_parser.set_disabled_temp_threshold(config.HOME_DISABLED_TEMP_THRESHOLD)
+    home_data_parser = SoftMCSVBoilerDataParser()
     home_data_parser.set_timestamp_parse_patterns(config.HOME_TIMESTAMP_PATTERNS)
     home_data_parser.set_timestamp_timezone_name(config.HOME_DATA_TIMEZONE)
-    home_data_interpolator = HomeDataLinearInterpolator()
+    home_data_parser.set_need_circuits(config.HOME_REQUIRED_CIRCUITS)
+    home_data_parser.set_need_columns(config.HOME_REQUIRED_COLUMNS)
+    home_data_parser.set_need_to_float_convert_columns(config.HOME_NEED_TO_FLOAT_CONVERT_COLUMNS)
+
+    home_data_interpolator = BoilerDataLinearInterpolator()
+    home_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
+    home_data_interpolator.set_columns_to_interpolate(config.HOME_COLUMNS_TO_INTERPOLATE)
 
     logging.debug(f"Searching homes datasets in {config.HOMES_SRC_DATASETS_DIR}")
     processes = []
     for dataset_name in os.listdir(config.HOMES_SRC_DATASETS_DIR):
         home_dataset_src_path = f"{config.HOMES_SRC_DATASETS_DIR}\\{dataset_name}"
-        home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_DATASETS_DIR}\\" \
+        home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\" \
                                 f"{dataset_name}{config.PREPROCESSED_DATASET_FILENAME_SUFFIX}"
 
         process = mp.Process(

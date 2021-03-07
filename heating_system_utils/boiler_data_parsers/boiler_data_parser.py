@@ -5,5 +5,5 @@ import pandas as pd
 
 class BoilerDataParser:
 
-    def parse(self, boiler_data: Union[str, IO]) -> pd.DataFrame:
+    def parse(self, data: Union[str, IO]) -> pd.DataFrame:
         raise NotImplementedError

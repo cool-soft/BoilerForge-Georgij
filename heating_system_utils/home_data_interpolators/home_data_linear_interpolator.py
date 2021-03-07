@@ -13,34 +13,34 @@ class HomeDataLinearInterpolator(HomeDataInterpolator):
         self._logger = logging.getLogger(self.__class__.__name__)
         self._logger.debug("Creating instance of the service")
 
-    def interpolate_boiler_data(self,
-                                home_df: pd.DataFrame,
-                                start_datetime=None,
-                                end_datetime=None,
-                                inplace=False) -> pd.DataFrame:
+    def interpolate_data(self,
+                         df: pd.DataFrame,
+                         start_datetime=None,
+                         end_datetime=None,
+                         inplace=False) -> pd.DataFrame:
         self._logger.debug("Requested data interpolating")
 
         time_tick_in_seconds = time_tick.TIME_TICK.total_seconds()
 
         if not inplace:
-            home_df = home_df.copy()
+            df = df.copy()
 
-        home_df[column_names.TIMESTAMP] = home_df[column_names.TIMESTAMP].apply(
+        df[column_names.TIMESTAMP] = df[column_names.TIMESTAMP].apply(
             lambda datetime_: round_datetime(datetime_, time_tick_in_seconds)
         )
-        home_df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
+        df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
 
         if start_datetime is not None:
             start_datetime = round_datetime(start_datetime, time_tick_in_seconds)
-            home_df = self._interpolate_data_start(home_df, start_datetime)
+            df = self._interpolate_data_start(df, start_datetime)
         if end_datetime is not None:
             end_datetime = round_datetime(end_datetime, time_tick_in_seconds)
-            home_df = self._interpolate_data_end(home_df, end_datetime)
-        home_df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
-        home_df = self._interpolate_passes_of_data(home_df)
-        home_df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
+            df = self._interpolate_data_end(df, end_datetime)
+        df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
+        df = self._interpolate_passes_of_data(df)
+        df.sort_values(by=column_names.TIMESTAMP, ignore_index=True, inplace=True)
 
-        return home_df
+        return df
 
     def _interpolate_passes_of_data(self, home_df: pd.DataFrame):
         self._logger.debug("Interpolating passes of data")
