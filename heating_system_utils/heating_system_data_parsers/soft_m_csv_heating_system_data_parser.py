@@ -5,12 +5,12 @@ from dateutil.tz import gettz
 
 from heating_system.preprocess_utils import parse_datetime, float_converter
 from heating_system_utils.constants import column_names, circuits_id
-from .boiler_data_parser import BoilerDataParser
+from .heating_system_data_parser import HeatingSystemDataParser
 from ..constants import soft_m_circuit_id_equals
 from ..constants import soft_m_column_names_equals
 
 
-class SoftMCSVBoilerDataParser(BoilerDataParser):
+class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
 
     def __init__(self, weather_data_timezone_name=None):
         self._logger = logging.getLogger(self.__class__.__name__)

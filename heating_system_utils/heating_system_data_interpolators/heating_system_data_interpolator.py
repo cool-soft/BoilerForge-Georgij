@@ -2,7 +2,7 @@
 import pandas as pd
 
 
-class BoilerDataInterpolator:
+class HeatingSystemDataInterpolator:
     def interpolate_data(self,
                          boiler_df: pd.DataFrame,
                          start_datetime=None,

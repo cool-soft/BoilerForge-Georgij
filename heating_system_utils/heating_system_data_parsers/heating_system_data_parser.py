@@ -3,7 +3,7 @@ from typing import Union, IO
 import pandas as pd
 
 
-class BoilerDataParser:
+class HeatingSystemDataParser:
 
     def parse(self, data: Union[str, IO]) -> pd.DataFrame:
         raise NotImplementedError

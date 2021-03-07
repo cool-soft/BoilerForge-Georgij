@@ -4,8 +4,8 @@ import os
 
 from heating_system import time_tick
 from heating_system.preprocess_utils import filter_by_timestamp_closed
-from heating_system_utils.boiler_data_interpolators.boiler_data_linear_interpolator import BoilerDataLinearInterpolator
-from heating_system_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import SoftMCSVBoilerDataParser
+from heating_system_utils.heating_system_data_interpolators.heating_system_data_linear_interpolator import HeatingSystemDataLinearInterpolator
+from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import SoftMCSVHeatingSystemDataParser
 from heating_system_utils.constants import column_names, circuits_id
 from main import config
 
@@ -41,14 +41,14 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
 def main():
     logging.basicConfig(level="DEBUG")
 
-    home_data_parser = SoftMCSVBoilerDataParser()
+    home_data_parser = SoftMCSVHeatingSystemDataParser()
     home_data_parser.set_timestamp_parse_patterns(config.HOME_TIMESTAMP_PATTERNS)
     home_data_parser.set_timestamp_timezone_name(config.HOME_DATA_TIMEZONE)
     home_data_parser.set_need_circuits(config.HOME_REQUIRED_CIRCUITS)
     home_data_parser.set_need_columns(config.HOME_REQUIRED_COLUMNS)
     home_data_parser.set_need_to_float_convert_columns(config.HOME_NEED_TO_FLOAT_CONVERT_COLUMNS)
 
-    home_data_interpolator = BoilerDataLinearInterpolator()
+    home_data_interpolator = HeatingSystemDataLinearInterpolator()
     home_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
     home_data_interpolator.set_columns_to_interpolate(config.HOME_COLUMNS_TO_INTERPOLATE)
 

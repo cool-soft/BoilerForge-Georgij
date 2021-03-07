@@ -2,10 +2,10 @@ import logging
 
 from main import config
 from heating_system import time_tick
-from heating_system_utils.boiler_data_interpolators.boiler_data_linear_interpolator import \
-    BoilerDataLinearInterpolator
-from heating_system_utils.boiler_data_parsers.soft_m_csv_boiler_data_parser import \
-    SoftMCSVBoilerDataParser
+from heating_system_utils.heating_system_data_interpolators.heating_system_data_linear_interpolator import \
+    HeatingSystemDataLinearInterpolator
+from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import \
+    SoftMCSVHeatingSystemDataParser
 from heating_system.preprocess_utils import filter_by_timestamp_closed
 from heating_system_utils.constants import column_names, circuits_id
 
@@ -13,14 +13,14 @@ from heating_system_utils.constants import column_names, circuits_id
 def main():
     logging.basicConfig(level="DEBUG")
 
-    boiler_data_parser = SoftMCSVBoilerDataParser()
+    boiler_data_parser = SoftMCSVHeatingSystemDataParser()
     boiler_data_parser.set_timestamp_parse_patterns(config.BOILER_TIMESTAMP_PATTERNS)
     boiler_data_parser.set_timestamp_timezone_name(config.BOILER_DATA_TIMEZONE)
     boiler_data_parser.set_need_circuits(config.BOILER_REQUIRED_CIRCUITS)
     boiler_data_parser.set_need_columns(config.BOILER_REQUIRED_COLUMNS)
     boiler_data_parser.set_need_to_float_convert_columns(config.BOILER_NEED_TO_FLOAT_CONVERT_COLUMNS)
 
-    boiler_data_interpolator = BoilerDataLinearInterpolator()
+    boiler_data_interpolator = HeatingSystemDataLinearInterpolator()
     boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
     boiler_data_interpolator.set_columns_to_interpolate(config.BOILER_COLUMNS_TO_INTERPOLATE)
 

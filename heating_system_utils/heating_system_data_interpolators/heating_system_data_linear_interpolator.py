@@ -5,10 +5,10 @@ import pandas as pd
 
 from heating_system.preprocess_utils import round_datetime
 from heating_system_utils.constants import column_names
-from .boiler_data_interpolator import BoilerDataInterpolator
+from .heating_system_data_interpolator import HeatingSystemDataInterpolator
 
 
-class BoilerDataLinearInterpolator(BoilerDataInterpolator):
+class HeatingSystemDataLinearInterpolator(HeatingSystemDataInterpolator):
 
     def __init__(self):
         self._logger = logging.getLogger(self.__class__.__name__)
