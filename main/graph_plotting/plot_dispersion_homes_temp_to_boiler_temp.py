@@ -64,6 +64,7 @@ def main():
         correlation_df[home_value_delta_column] = delta
         correlation_df[home_value_abs_delta_column] = np.abs(delta)
         std_var = np.std(delta)
+        print(f"{home_name}: {std_var}")
         correlation_df = correlation_df[correlation_df[home_value_abs_delta_column] <= 3 * std_var]
 
         ax = correlation_df[home_value_delta_column].hist(bins=20)
