@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 from heating_system.preprocess_utils import filter_by_timestamp_closed, average_values
-from heating_system_utils.boiler_dataset_io import load_dataset
+from heating_system_utils.heating_dataset_io import load_heating_dataset
 from heating_system_utils.constants import column_names
 from main import config
 
@@ -17,10 +17,10 @@ def main():
     min_lag = 1
     max_lag = 20
 
-    boiler_df: pd.DataFrame = load_dataset(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
+    boiler_df: pd.DataFrame = load_heating_dataset(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df: pd.DataFrame = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
 
-    home_df: pd.DataFrame = load_dataset(f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\{home_dataset_name}")
+    home_df: pd.DataFrame = load_heating_dataset(f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\{home_dataset_name}")
     home_df: pd.DataFrame = filter_by_timestamp_closed(home_df, start_datetime, end_datetime)
 
     boiler_df_len = len(boiler_df)

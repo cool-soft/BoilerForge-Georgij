@@ -5,8 +5,8 @@ from dateutil.tz import gettz
 from pandas.plotting import register_matplotlib_converters
 
 from heating_system.preprocess_utils import filter_by_timestamp_closed
-from heating_system_utils.boiler_dataset_io import load_dataset
 from heating_system_utils.constants import column_names
+from heating_system_utils.heating_dataset_io import load_heating_dataset
 from main import config
 
 if __name__ == '__main__':
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         # column_names.BACKWARD_PIPE_COOLANT_PRESSURE
     )
 
-    loaded_dataset = load_dataset(dataset_path)
+    loaded_dataset = load_heating_dataset(dataset_path)
     loaded_dataset = filter_by_timestamp_closed(loaded_dataset, start_datetime, end_datetime)
 
     for column_name in columns_to_plot:
