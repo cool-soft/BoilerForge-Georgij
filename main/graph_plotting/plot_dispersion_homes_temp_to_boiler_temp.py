@@ -1,15 +1,13 @@
 import datetime
 import os
 
-from dateutil.tz import gettz
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from dateutil.tz import gettz
 
-from heating_system.preprocess_utils import filter_by_timestamp_closed
-from heating_system_utils.heating_dataset_io import load_heating_dataset
-from heating_system.weather_dataset_utils.weather_dataset_io import load_weather_dataset
 from heating_system import column_names as column_names
+from heating_system.preprocess_utils import filter_by_timestamp_closed
 from heating_system_utils.constants import column_names as h_column_names
 from main import config
 
@@ -29,13 +27,13 @@ def main():
     with open(config.HOMES_TIME_DELTAS_PATH, "r") as f:
         time_deltas_df = pd.read_csv(f)
 
-    boiler_df = load_heating_dataset(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
+    boiler_df = pd.read_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
     boiler_forward_temp = boiler_df[h_column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
 
     for home_dataset_name in os.listdir(config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR):
         home_dataset_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\{home_dataset_name}"
-        home_df = load_heating_dataset(home_dataset_path)
+        home_df = pd.read_pickle(home_dataset_path)
         home_df = filter_by_timestamp_closed(home_df, start_datetime, end_datetime)
         home_forward_temp = home_df[h_column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
 
