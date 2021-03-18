@@ -40,6 +40,7 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
 
 def main():
     logging.basicConfig(level="DEBUG")
+    dataset_name = "gaydara_32.csv"
 
     home_data_parser = SoftMCSVHeatingSystemDataParser()
     home_data_parser.set_timestamp_parse_patterns(config.HOME_TIMESTAMP_PATTERNS)
@@ -53,7 +54,6 @@ def main():
     home_data_interpolator.set_columns_to_interpolate(config.HOME_COLUMNS_TO_INTERPOLATE)
 
     logging.debug(f"Searching homes datasets in {config.HOMES_SRC_DATASETS_DIR}")
-    dataset_name = "engelsa_37.csv"
 
     home_dataset_src_path = f"{config.HOMES_SRC_DATASETS_DIR}\\{dataset_name}"
     home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\" \

@@ -58,7 +58,7 @@ class HeatingSystemDataLinearInterpolator(HeatingSystemDataInterpolator):
         self._logger.debug("Rounding datetime")
 
         interpolations_step_in_seconds = int(self._interpolation_step.total_seconds())
-        df[column_names.TIMESTAMP].dt.round(f"{interpolations_step_in_seconds}s")
+        df[column_names.TIMESTAMP] = df[column_names.TIMESTAMP].dt.round(f"{interpolations_step_in_seconds}s")
         df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
 
     # noinspection PyMethodMayBeStatic
