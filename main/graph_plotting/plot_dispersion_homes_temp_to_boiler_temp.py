@@ -62,15 +62,18 @@ def main():
         correlation_df[home_value_delta_column] = delta
         correlation_df[home_value_abs_delta_column] = np.abs(delta)
         std_var = np.std(delta)
-        print(f"{home_name}: {std_var}")
+        # print(f"{home_name}: {std_var}")
         correlation_df = correlation_df[correlation_df[home_value_abs_delta_column] <= 3 * std_var]
 
-        ax = correlation_df[home_value_delta_column].hist(bins=20)
-        ax.set_title(home_name)
+        print(f"{home_name:20}: "
+              f"[{correlation_df[home_value_delta_column].quantile(0.025):5.3}, "
+              f"{correlation_df[home_value_delta_column].quantile(0.975):5.3}]")
 
-        plt.show()
+        # ax = correlation_df[home_value_delta_column].hist(bins=20)
+        # ax.set_title(home_name)
+        # plt.show()
 
-        print()
+        print(end="")
 
 
 if __name__ == '__main__':

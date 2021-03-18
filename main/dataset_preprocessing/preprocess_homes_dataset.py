@@ -18,10 +18,10 @@ def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_
 
     logging.info(f"Processing {home_dataset_src_path}")
 
-    with open(config.BOILER_SRC_DATASET_PATH, encoding="UTF-8") as f:
-        boiler_df = home_data_parser.parse(f)
+    with open(home_dataset_src_path, encoding="UTF-8") as f:
+        home_df = home_data_parser.parse(f)
 
-    home_heating_circuit_df = boiler_df[boiler_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
+    home_heating_circuit_df = home_df[home_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
     del home_heating_circuit_df[column_names.CIRCUIT_ID]
     home_heating_circuit_df = home_data_interpolator.interpolate_data(
         home_heating_circuit_df,
