@@ -12,21 +12,21 @@ from main import config
 
 
 def main():
-    start_datetime = datetime.datetime(2019, 2, 27, 23, 0, 0, tzinfo=gettz(config.TIMEZONE))
+    start_datetime = datetime.datetime(2018, 12, 1, 23, 0, 0, tzinfo=gettz(config.TIMEZONE))
     end_datetime = datetime.datetime(2019, 3, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
     homes_in_temp_smooth_size = 100
     boiler_temp_smooth_size = 100
     # noinspection SpellCheckingInspection
     allowed_homes = [
-        # "engelsa_35.csv.pickle",
-        # "engelsa_37.csv.pickle",
+        "engelsa_35.csv.pickle",
+        "engelsa_37.csv.pickle",
         # "gaydara_1.csv.pickle",
         # "gaydara_22.csv.pickle",
         # "gaydara_26.csv.pickle",
         # "gaydara_28.csv.pickle",
         # "gaydara_30.csv.pickle",
         "gaydara_32.csv.pickle",
-        # "kuibysheva_10.csv.pickle",
+        "kuibysheva_10.csv.pickle",
         # "kuibysheva_14.csv.pickle",
         # "kuibysheva_16.csv.pickle",
         # "kuibysheva_8.csv.pickle",
