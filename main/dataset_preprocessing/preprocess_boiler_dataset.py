@@ -1,7 +1,6 @@
 import logging
 
 from main import config
-from heating_system import time_tick
 from heating_system_utils.heating_system_data_interpolators.heating_system_data_linear_interpolator import \
     HeatingSystemDataLinearInterpolator
 from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import \
@@ -21,7 +20,7 @@ def main():
     boiler_data_parser.set_need_to_float_convert_columns(config.BOILER_NEED_TO_FLOAT_CONVERT_COLUMNS)
 
     boiler_data_interpolator = HeatingSystemDataLinearInterpolator()
-    boiler_data_interpolator.set_interpolation_step(time_tick.TIME_TICK)
+    boiler_data_interpolator.set_interpolation_step(config.TIME_TICK)
     boiler_data_interpolator.set_columns_to_interpolate(config.BOILER_COLUMNS_TO_INTERPOLATE)
 
     with open(config.BOILER_SRC_DATASET_PATH, encoding="UTF-8") as f:

@@ -12,8 +12,8 @@ from main import config
 
 
 def main():
-    start_datetime = datetime.datetime(2018, 12, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
-    end_datetime = datetime.datetime(2019, 4, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
+    start_datetime = datetime.datetime(2019, 1, 5, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
+    end_datetime = datetime.datetime(2019, 1, 15, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
 
     allowed_homes = [
         "engelsa_35.csv.pickle",

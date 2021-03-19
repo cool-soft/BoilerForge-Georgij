@@ -4,6 +4,8 @@ from dateutil.tz import gettz
 
 from heating_system_utils.constants import circuits_id, column_names
 
+TIME_TICK = datetime.timedelta(minutes=3)
+
 BOILER_TEMP_SMOOTH_SIZE = 100
 
 TIMEZONE = "Asia/Yekaterinburg"
