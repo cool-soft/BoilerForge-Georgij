@@ -8,7 +8,7 @@ from dateutil.tz import gettz
 
 from heating_system.preprocess_utils import filter_by_timestamp_closed
 from heating_system_utils.constants import column_names as h_column_names
-from homes_time_deltas_utils.constants import column_names
+from heating_objects_time_deltas.constants import column_names
 from main import config
 
 

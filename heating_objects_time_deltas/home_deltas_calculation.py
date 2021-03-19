@@ -1,5 +1,5 @@
 import pandas as pd
-from homes_time_deltas_utils.constants import column_names
+from heating_objects_time_deltas.constants import column_names
 
 
 def get_timedelta_by_home_name(home_name, filepath):
