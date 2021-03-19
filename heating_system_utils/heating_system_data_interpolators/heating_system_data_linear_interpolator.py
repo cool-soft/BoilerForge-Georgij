@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import pandas as pd
 
-from heating_system.preprocess_utils import round_datetime
+from parsing_utils.datetime_parsing import round_datetime
 from heating_system_utils.constants import column_names
 from .heating_system_data_interpolator import HeatingSystemDataInterpolator
 
