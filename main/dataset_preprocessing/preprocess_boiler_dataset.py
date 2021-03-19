@@ -5,7 +5,7 @@ from heating_system_utils.heating_system_data_interpolators.heating_system_data_
     HeatingSystemDataLinearInterpolator
 from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import \
     SoftMCSVHeatingSystemDataParser
-from heating_system.preprocess_utils import filter_by_timestamp_closed
+from parsing_utils.utils import filter_by_timestamp_closed
 from heating_system_utils.constants import column_names, circuits_id
 
 

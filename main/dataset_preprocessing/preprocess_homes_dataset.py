@@ -2,7 +2,7 @@ import logging
 import multiprocessing as mp
 import os
 
-from heating_system.preprocess_utils import filter_by_timestamp_closed
+from parsing_utils.utils import filter_by_timestamp_closed
 from heating_system_utils.heating_system_data_interpolators.heating_system_data_linear_interpolator \
     import HeatingSystemDataLinearInterpolator
 from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser \

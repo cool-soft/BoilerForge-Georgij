@@ -5,7 +5,7 @@ import pandas as pd
 from dateutil.tz import gettz
 from pandas.plotting import register_matplotlib_converters
 
-from heating_system.preprocess_utils import filter_by_timestamp_closed
+from parsing_utils.utils import filter_by_timestamp_closed
 from heating_system_utils.constants import column_names
 from main import config
 
