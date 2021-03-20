@@ -1,16 +1,18 @@
 import datetime
 
 from dateutil.tz import gettz
+import pandas as pd
 
-from heating_system_utils.constants import circuits_id, column_names
+from constants import circuits_id, column_names
+
 
 TIME_TICK = datetime.timedelta(minutes=3)
 
 BOILER_TEMP_SMOOTH_SIZE = 100
 
 TIMEZONE = "Asia/Yekaterinburg"
-START_DATETIME = datetime.datetime(2018, 12, 1, 0, 0, 0, tzinfo=gettz(TIMEZONE))
-END_DATETIME = datetime.datetime(2019, 6, 1, 0, 0, 0, tzinfo=gettz(TIMEZONE))
+START_DATETIME = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
+END_DATETIME = pd.Timestamp(year=2019, month=6, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
 
 MODELS_DIR = "storage/saved_models"
 MODEL_METRICS_FILENAME = "history"

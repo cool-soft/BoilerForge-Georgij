@@ -2,10 +2,10 @@ import logging
 import os
 
 from parsing_utils.utils import filter_by_timestamp_closed
-from heating_system_utils.constants import column_names, circuits_id
-from heating_system_utils.heating_system_data_interpolators.heating_system_data_linear_interpolator import \
+from constants import column_names, circuits_id
+from heating_system.heating_system_data_interpolators.heating_system_data_linear_interpolator import \
     HeatingSystemDataLinearInterpolator
-from heating_system_utils.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import \
+from heating_system.heating_system_data_parsers.soft_m_csv_heating_system_data_parser import \
     SoftMCSVHeatingSystemDataParser
 from main import config
 

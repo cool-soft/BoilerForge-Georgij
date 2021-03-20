@@ -7,7 +7,7 @@ from dateutil.tz import gettz
 from scipy.signal import correlate
 
 from parsing_utils.utils import filter_by_timestamp_closed
-from heating_system_utils.constants import column_names
+from constants import column_names
 from main import config
 
 

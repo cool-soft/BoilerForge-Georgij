@@ -1,5 +1,5 @@
+from constants import column_names
 from . import soft_m_column_names
-from . import column_names
 
 DICT = {
     soft_m_column_names.TIMESTAMP: column_names.TIMESTAMP,
