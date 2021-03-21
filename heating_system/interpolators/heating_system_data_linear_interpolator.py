@@ -4,7 +4,6 @@ from datetime import timedelta
 import pandas as pd
 
 from constants import column_names
-from parsing_utils.datetime_parsing import round_datetime
 from .heating_system_data_interpolator import HeatingSystemDataInterpolator
 
 
@@ -62,11 +61,14 @@ class HeatingSystemDataLinearInterpolator(HeatingSystemDataInterpolator):
         df.drop_duplicates(column_names.TIMESTAMP, inplace=True, ignore_index=True)
 
     # noinspection PyMethodMayBeStatic
-    def _interpolate_border_datetime(self, df: pd.DataFrame, start_datetime, end_datetime):
+    def _interpolate_border_datetime(self,
+                                     df: pd.DataFrame,
+                                     start_datetime: pd.Timestamp,
+                                     end_datetime: pd.Timestamp):
         self._logger.debug("Interpolating border datetime values")
 
         if start_datetime is not None:
-            start_datetime = round_datetime(start_datetime, self._interpolation_step.total_seconds())
+            start_datetime = start_datetime.floor(f"{int(self._interpolation_step.total_seconds())}s")
             first_datetime_idx = df[column_names.TIMESTAMP].idxmin()
             first_row = df.loc[first_datetime_idx]
             first_datetime = first_row[column_names.TIMESTAMP]
@@ -74,7 +76,7 @@ class HeatingSystemDataLinearInterpolator(HeatingSystemDataInterpolator):
                 df = df.append({column_names.TIMESTAMP: start_datetime}, ignore_index=True)
 
         if end_datetime is not None:
-            end_datetime = round_datetime(end_datetime, self._interpolation_step.total_seconds())
+            end_datetime = end_datetime.floor(f"{int(self._interpolation_step.total_seconds())}s")
             last_datetime_idx = df[column_names.TIMESTAMP].idxmax()
             last_row = df.loc[last_datetime_idx]
             last_datetime = last_row[column_names.TIMESTAMP]
