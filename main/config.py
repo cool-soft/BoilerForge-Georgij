@@ -14,16 +14,8 @@ TIMEZONE = "Asia/Yekaterinburg"
 START_DATETIME = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
 END_DATETIME = pd.Timestamp(year=2019, month=6, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
 
-MODELS_DIR = "storage/saved_models"
-MODEL_METRICS_FILENAME = "history"
-MODEL_FILE_SUFFIX = "_model"
-
 PREPROCESSED_DATASET_FILENAME_EXT = ".pickle"
 
-HOME_DISABLED_TEMP_THRESHOLD = 0
-
-#############################################################
-#############################################################
 #############################################################
 
 HOMES_SRC_DATASETS_DIR = "storage/datasets/src/homes"
@@ -97,18 +89,12 @@ BOILER_COLUMNS_TO_INTERPOLATE = (
 )
 
 #############################################################
-#############################################################
 
 WEATHER_DATA_TIMEZONE = "Asia/Yekaterinburg"
 WEATHER_SRC_DATASET_PATH = "storage/datasets/src/weather_data.json"
-WEATHER_PREPROCESSED_DATASET_PATH = "storage/datasets/preprocessed/weather_temp.pickle"
+WEATHER_PREPROCESSED_DATASET_PATH = "storage/datasets/preprocessed/weather_data.pickle"
 
 HOMES_TIME_DELTAS_PATH = "storage/homes_time_delta.csv"
 TEMP_CORRELATION_TABLE_PATH = "storage/optimized_temp_table.pickle"
 
 TEMP_GRAPH_PATH = "storage/temp_graph.csv"
-
-HOME_MIN_TEMP_COEFFICIENT = 0.97
-PREDICTED_BOILER_TEMP_PATH = "storage/predicted_boiler_temp.pickle"
-
-BEST_MODEL_FILENAME = "best"

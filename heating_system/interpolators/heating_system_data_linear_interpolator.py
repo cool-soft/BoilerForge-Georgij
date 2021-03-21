@@ -128,6 +128,5 @@ class HeatingSystemDataLinearInterpolator(HeatingSystemDataInterpolator):
     def _interpolate_passes_of_data(self, df):
         self._logger.debug("Interpolating passes of data")
         for column_to_interpolate in self._columns_to_interpolate:
-            # TODO: Move into parser
             df[column_to_interpolate] = pd.to_numeric(df[column_to_interpolate], downcast="float")
             df[column_to_interpolate].interpolate(inplace=True)

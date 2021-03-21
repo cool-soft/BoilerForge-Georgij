@@ -5,7 +5,6 @@ from dateutil.tz import gettz
 
 from constants import circuits_id, column_names
 from parsing_utils.datetime_parsing import parse_datetime
-from parsing_utils.utils import float_converter
 from .heating_system_data_parser import HeatingSystemDataParser
 from ..constants import soft_m_circuit_id_equals
 from ..constants import soft_m_column_names_equals
@@ -128,7 +127,8 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
     def _convert_values_to_float_right(self, df):
         self._logger.debug("Converting values to float")
         for column_name in self._need_to_float_convert_columns:
-            df[column_name] = df[column_name].apply(float_converter)
+            df[column_name] = df[column_name].str.replace(",", ".", regex=False)
+            df[column_name] = df[column_name].apply(float)
 
     # noinspection PyMethodMayBeStatic
     def _divide_incorrect_hot_water_temp(self, df):
