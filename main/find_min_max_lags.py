@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 from dateutil.tz import gettz
+from matplotlib import pyplot as plt
 
 from constants import column_names
 from heating_objects_time_deltas.corr_time_delta_calculator import CorrTimeDeltaCalculator
@@ -14,21 +15,21 @@ from parsing_utils.utils import filter_by_timestamp_closed
 def main():
     start_datetime = datetime.datetime(2019, 1, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
     end_datetime = datetime.datetime(2019, 5, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
-    calc_step = pd.Timedelta(hours=120)
+    calc_step = pd.Timedelta(hours=36)  # 120)
 
     allowed_homes = [
-        "engelsa_35.csv.pickle",
-        "engelsa_37.csv.pickle",
-        "gaydara_1.csv.pickle",
+        # "engelsa_35.csv.pickle",
+        # "engelsa_37.csv.pickle",
+        # "gaydara_1.csv.pickle",
         "gaydara_22.csv.pickle",
-        "gaydara_26.csv.pickle",
+        # "gaydara_26.csv.pickle",
         "gaydara_28.csv.pickle",
-        "gaydara_30.csv.pickle",
+        # "gaydara_30.csv.pickle",
         "gaydara_32.csv.pickle",
-        "kuibysheva_10.csv.pickle",
-        "kuibysheva_14.csv.pickle",
-        "kuibysheva_16.csv.pickle",
-        "kuibysheva_8.csv.pickle",
+        # "kuibysheva_10.csv.pickle",
+        # "kuibysheva_14.csv.pickle",
+        # "kuibysheva_16.csv.pickle",
+        # "kuibysheva_8.csv.pickle",
     ]
 
     start_datetime = pd.Timestamp(start_datetime)
@@ -37,6 +38,10 @@ def main():
     calulations_count = (end_datetime-start_datetime) // calc_step
 
     lag_calculator = CorrTimeDeltaCalculator()
+
+    weater_df = pd.read_pickle(config.WEATHER_PREPROCESSED_DATASET_PATH)
+    weater_df = filter_by_timestamp_closed(weater_df, start_datetime, end_datetime)
+    plt.plot(weater_df[column_names.TIMESTAMP], weater_df[column_names.WEATHER_TEMP], label="weater temp")
 
     boiler_df = pd.read_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df: pd.DataFrame = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
@@ -49,9 +54,13 @@ def main():
             home_df = filter_by_timestamp_closed(home_df, start_datetime, end_datetime)
 
             lag_array = np.empty(calulations_count, dtype=np.float)
+            lag_dates = []
             for calc_number in range(calulations_count):
                 sub_start_datetime = start_datetime + (calc_step * calc_number)
                 sub_end_datetime = sub_start_datetime + calc_step
+
+                mean_date = sub_start_datetime + (calc_step // 2)
+                lag_dates.append(mean_date)
 
                 boiler_sub_df = filter_by_timestamp_closed(boiler_df, sub_start_datetime, sub_end_datetime)
                 boiler_out_temp = boiler_sub_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
@@ -68,6 +77,12 @@ def main():
                   f"min: {np.min(lag_array):5.3} "
                   f"max: {np.max(lag_array):5.3} "
                   f"mean: {np.mean(lag_array):5.3}")
+
+            plt.plot(lag_dates, lag_array, "-.", label=home_dataset_name)
+
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == '__main__':
