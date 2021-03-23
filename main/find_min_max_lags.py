@@ -9,22 +9,23 @@ from matplotlib import pyplot as plt
 from constants import column_names
 from heating_objects_time_deltas.corr_time_delta_calculator import CorrTimeDeltaCalculator
 from main import config
-from parsing_utils.utils import filter_by_timestamp_closed
+from parsing_utils.utils import filter_by_timestamp_closed, average_values
 
 
 def main():
     start_datetime = datetime.datetime(2019, 1, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
     end_datetime = datetime.datetime(2019, 5, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
-    calc_step = pd.Timedelta(hours=36)  # 120)
+    calc_step = pd.Timedelta(hours=360)
+    average_size = 100
 
     allowed_homes = [
         # "engelsa_35.csv.pickle",
         # "engelsa_37.csv.pickle",
         # "gaydara_1.csv.pickle",
-        "gaydara_22.csv.pickle",
+        # "gaydara_22.csv.pickle",
         # "gaydara_26.csv.pickle",
         "gaydara_28.csv.pickle",
-        # "gaydara_30.csv.pickle",
+        "gaydara_30.csv.pickle",
         "gaydara_32.csv.pickle",
         # "kuibysheva_10.csv.pickle",
         # "kuibysheva_14.csv.pickle",
@@ -38,10 +39,6 @@ def main():
     calulations_count = (end_datetime-start_datetime) // calc_step
 
     lag_calculator = CorrTimeDeltaCalculator()
-
-    weater_df = pd.read_pickle(config.WEATHER_PREPROCESSED_DATASET_PATH)
-    weater_df = filter_by_timestamp_closed(weater_df, start_datetime, end_datetime)
-    plt.plot(weater_df[column_names.TIMESTAMP], weater_df[column_names.WEATHER_TEMP], label="weater temp")
 
     boiler_df = pd.read_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df: pd.DataFrame = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
@@ -64,11 +61,11 @@ def main():
 
                 boiler_sub_df = filter_by_timestamp_closed(boiler_df, sub_start_datetime, sub_end_datetime)
                 boiler_out_temp = boiler_sub_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
-                # boiler_out_temp = average_values(boiler_out_temp, average_size)
+                boiler_out_temp = average_values(boiler_out_temp, average_size)
 
                 home_sub_df = filter_by_timestamp_closed(home_df, sub_start_datetime, sub_end_datetime)
                 home_in_temp = home_sub_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
-                # average_values(home_in_temp, average_size)
+                average_values(home_in_temp, average_size)
 
                 lag = lag_calculator.find_lag(boiler_out_temp, home_in_temp)
                 lag_array[calc_number] = lag
