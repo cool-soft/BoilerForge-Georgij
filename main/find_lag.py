@@ -29,12 +29,12 @@ def main():
         "kuibysheva_8.csv.pickle",
     ]
 
+    lag_calculator = CorrTimeDeltaCalculator()
+
     boiler_df = pd.read_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df: pd.DataFrame = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
     boiler_out_temp = boiler_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
     # boiler_out_temp = average_values(boiler_out_temp, average_size)
-
-    lag_calculator = CorrTimeDeltaCalculator()
 
     for home_dataset_name in os.listdir(config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR):
         if home_dataset_name in allowed_homes:
