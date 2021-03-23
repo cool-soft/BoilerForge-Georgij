@@ -1,14 +1,13 @@
 import datetime
 import os
 
-import numpy as np
 import pandas as pd
 from dateutil.tz import gettz
-from scipy.signal import correlate
 
-from parsing_utils.utils import filter_by_timestamp_closed
 from constants import column_names
+from heating_objects_time_deltas.corr_time_delta_calculator import CorrTimeDeltaCalculator
 from main import config
+from parsing_utils.utils import filter_by_timestamp_closed
 
 
 def main():
@@ -35,8 +34,7 @@ def main():
     boiler_out_temp = boiler_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
     # boiler_out_temp = average_values(boiler_out_temp, average_size)
 
-    boiler_out_temp -= boiler_out_temp.mean()
-    boiler_out_temp /= boiler_out_temp.std()
+    lag_calculator = CorrTimeDeltaCalculator()
 
     for home_dataset_name in os.listdir(config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR):
         if home_dataset_name in allowed_homes:
@@ -47,12 +45,7 @@ def main():
             home_in_temp = home_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
             # average_values(home_in_temp, average_size)
 
-            home_in_temp -= home_in_temp.mean()
-            home_in_temp /= home_in_temp.std()
-
-            corr = correlate(home_in_temp, boiler_out_temp)
-            dt = np.arange(1 - len(home_in_temp), len(home_in_temp))
-            lag = dt[corr.argmax()]
+            lag = lag_calculator.find_lag(boiler_out_temp, home_in_temp)
             print(f"{home_dataset_name:20}: {lag}")
 
 
