@@ -73,7 +73,8 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
 
     def parse(self, data):
         self._logger.debug("Loading data")
-        df = pd.read_csv(data, sep=";", low_memory=False)
+
+        df = pd.read_csv(data, sep=";", low_memory=False, parse_dates=False)
 
         self._logger.debug("Parsing data")
         self._rename_columns(df)
@@ -89,55 +90,46 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
 
     def _rename_columns(self, df):
         self._logger.debug("Renaming columns")
-
         column_names_equals = {}
         for soft_m_column_name, target_column_name in self._column_names_equals.items():
             if target_column_name in self._need_columns:
                 column_names_equals[soft_m_column_name] = target_column_name
         df.rename(columns=column_names_equals, inplace=True)
 
-    # noinspection PyMethodMayBeStatic
     def _exclude_unused_columns(self, df):
         self._logger.debug("Excluding unused columns")
-
         df = df[list(self._need_columns)]
         return df
 
-    # noinspection PyMethodMayBeStatic
+    def _convert_circuits_id_to_str(self, df: pd.DataFrame):
+        self._logger.debug("Converting circuits id to str")
+        df[column_names.CIRCUIT_ID] = df[column_names.CIRCUIT_ID].apply(str)
+
     def _rename_circuits(self, df):
         self._logger.debug("Renaming circuits")
-
         df[column_names.CIRCUIT_ID].replace(self._circuit_id_equals, inplace=True)
 
     def _exclude_unused_circuits(self, df):
         self._logger.debug("Excluding unused circuits")
-
         df = df[df[column_names.CIRCUIT_ID].isin(self._need_circuits)]
         return df
 
     def _parse_datetime(self, df: pd.DataFrame):
         self._logger.debug("Parsing datetime")
-
         boiler_data_timezone = gettz(self._timestamp_timezone_name)
         df[column_names.TIMESTAMP] = df[column_names.TIMESTAMP].apply(
             parse_datetime, args=(self._timestamp_parse_patterns, boiler_data_timezone)
         )
 
-    # noinspection PyMethodMayBeStatic
     def _convert_values_to_float_right(self, df):
         self._logger.debug("Converting values to float")
         for column_name in self._need_to_float_convert_columns:
             df[column_name] = df[column_name].str.replace(",", ".", regex=False)
             df[column_name] = df[column_name].apply(float)
 
-    # noinspection PyMethodMayBeStatic
     def _divide_incorrect_hot_water_temp(self, df):
         self._logger.debug("Dividing incorrect water temp")
         for column_name in self._water_temp_columns:
             df[column_name] = df[column_name].apply(
                 lambda water_temp: water_temp > 120 and water_temp / 100 or water_temp
             )
-
-    def _convert_circuits_id_to_str(self, df: pd.DataFrame):
-        self._logger.debug("Converting circuits id to str")
-        df[column_names.CIRCUIT_ID] = df[column_names.CIRCUIT_ID].apply(str)
