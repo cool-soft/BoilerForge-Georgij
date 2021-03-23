@@ -7,3 +7,6 @@
 [submodule "constants"]
 	path = constants
 	url = https://github.com/user11336/BoilerConstants.git
+[submodule "heating_objects_time_deltas"]
+	path = heating_objects_time_deltas
+	url = https://github.com/user11336/BoilerTimeDelta.git
