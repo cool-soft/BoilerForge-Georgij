@@ -22,7 +22,7 @@ class SoftMCSVHeatingSystemDataParser(HeatingSystemDataParser):
             r"(?P<day>\d{2})\.(?P<month>\d{2})\.(?P<year>\d{4})\s(?P<hour>\d{1,2}):(?P<min>\d{2})"
         )
 
-        self._need_circuits = (circuits_id.HEATING_CIRCUIT, circuits_id.WATER_CIRCUIT)
+        self._need_circuits = (circuits_id.HEATING_CIRCUIT, circuits_id.HOT_WATER_CIRCUIT)
         self._need_columns = (
             column_names.TIMESTAMP,
             column_names.CIRCUIT_ID,
