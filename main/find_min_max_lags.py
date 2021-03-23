@@ -14,7 +14,7 @@ from parsing_utils.utils import filter_by_timestamp_closed
 def main():
     start_datetime = datetime.datetime(2019, 1, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
     end_datetime = datetime.datetime(2019, 5, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))
-    calc_step = pd.Timedelta(hours=240)
+    calc_step = pd.Timedelta(hours=120)
 
     allowed_homes = [
         "engelsa_35.csv.pickle",
