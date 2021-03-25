@@ -4,9 +4,6 @@
 [submodule "parsing_utils"]
 	path = parsing_utils
 	url = https://github.com/user11336/parsing_utils.git
-[submodule "heating_objects_time_deltas"]
-	path = heating_objects_time_deltas
-	url = https://github.com/user11336/BoilerTimeDelta.git
 [submodule "boiler_heating_system"]
 	path = boiler_heating_system
 	url = https://github.com/user11336/boiler_heating_system.git
