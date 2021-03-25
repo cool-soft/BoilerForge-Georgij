@@ -6,9 +6,8 @@ import numpy as np
 import pandas as pd
 from dateutil.tz import gettz
 
-from parsing_utils.utils import filter_by_timestamp_closed
-from constants import column_names as h_column_names
-from constants import column_names
+from boiler_parsing_utils.utils import filter_by_timestamp_closed
+from boiler_constants import column_names
 from main import config
 
 
@@ -29,13 +28,13 @@ def main():
 
     boiler_df = pd.read_pickle(config.BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH)
     boiler_df = filter_by_timestamp_closed(boiler_df, start_datetime, end_datetime)
-    boiler_forward_temp = boiler_df[h_column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
+    boiler_forward_temp = boiler_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
 
     for home_dataset_name in os.listdir(config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR):
         home_dataset_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\{home_dataset_name}"
         home_df = pd.read_pickle(home_dataset_path)
         home_df = filter_by_timestamp_closed(home_df, start_datetime, end_datetime)
-        home_forward_temp = home_df[h_column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
+        home_forward_temp = home_df[column_names.FORWARD_PIPE_COOLANT_TEMP].to_numpy()
 
         home_name = home_dataset_name[:-len(config.PREPROCESSED_DATASET_FILENAME_EXT)]
         home_lag = time_deltas_df[time_deltas_df[column_names.HOME_NAME] == home_name][column_names.TIME_DELTA]

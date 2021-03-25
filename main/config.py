@@ -3,7 +3,7 @@ import datetime
 from dateutil.tz import gettz
 import pandas as pd
 
-from constants import circuits_id, column_names
+from boiler_constants import circuits_id, column_names
 
 
 TIME_TICK = datetime.timedelta(minutes=3)

@@ -5,8 +5,8 @@ import pandas as pd
 from dateutil.tz import gettz
 from pandas.plotting import register_matplotlib_converters
 
-from parsing_utils.utils import filter_by_timestamp_closed
-from constants import column_names
+from boiler_parsing_utils.utils import filter_by_timestamp_closed
+from boiler_constants import column_names
 from main import config
 
 if __name__ == '__main__':

@@ -4,10 +4,10 @@ import os
 import pandas as pd
 from dateutil.tz import gettz
 
-from constants import column_names
-from heating_objects_time_deltas.corr_time_delta_calculator import CorrTimeDeltaCalculator
+from boiler_constants import column_names
+from boiler_time_delta.corr_time_delta_calculator import CorrTimeDeltaCalculator
+from boiler_parsing_utils.utils import filter_by_timestamp_closed
 from main import config
-from parsing_utils.utils import filter_by_timestamp_closed
 
 
 def main():

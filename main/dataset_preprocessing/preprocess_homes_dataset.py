@@ -2,11 +2,11 @@ import logging
 import multiprocessing as mp
 import os
 
-from parsing_utils.utils import filter_by_timestamp_closed
+from boiler_parsing_utils.utils import filter_by_timestamp_closed
 from boiler_heating_system.interpolators.heating_system_data_linear_interpolator \
     import HeatingSystemDataLinearInterpolator
 from boiler_heating_system.parsers.soft_m_csv_heating_system_data_parser import SoftMCSVHeatingSystemDataParser
-from constants import column_names, circuits_id
+from boiler_constants import column_names, circuits_id
 from main import config
 
 
