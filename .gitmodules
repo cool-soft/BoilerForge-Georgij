@@ -1,3 +1,6 @@
 [submodule "boiler_heating_system"]
 	path = boiler_heating_system
 	url = https://github.com/user11336/boiler_heating_system.git
+[submodule "boiler_weater_info"]
+	path = boiler_weater_info
+	url = https://github.com/user11336/boiler_weater_info.git
