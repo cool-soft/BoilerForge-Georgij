@@ -1,9 +1,6 @@
 [submodule "weather_data"]
 	path = weather_data
 	url = https://github.com/user11336/BoilerWeaterInfo.git
-[submodule "parsing_utils"]
-	path = parsing_utils
-	url = https://github.com/user11336/parsing_utils.git
 [submodule "boiler_heating_system"]
 	path = boiler_heating_system
 	url = https://github.com/user11336/boiler_heating_system.git
