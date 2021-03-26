@@ -3,7 +3,7 @@ import logging
 
 import pandas as pd
 
-from boiler_constants import column_names
+from ...constants import column_names
 from .weather_data_interpolator import WeatherDataInterpolator
 
 

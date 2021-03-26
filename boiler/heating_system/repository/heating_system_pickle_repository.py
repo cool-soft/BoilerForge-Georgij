@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-from boiler_parsing_utils.utils import filter_by_timestamp_closed
+from boiler.parsing_utils.utils import filter_by_timestamp_closed
 from .heating_system_repository import HeatingSystemRepository
 
 

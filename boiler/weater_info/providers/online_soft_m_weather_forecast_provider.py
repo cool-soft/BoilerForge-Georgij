@@ -3,9 +3,9 @@ import logging
 import pandas as pd
 import requests
 
-from boiler_constants import column_names
-from boiler_weater_info.interpolators.weather_data_interpolator import WeatherDataInterpolator
-from boiler_weater_info.parsers.weather_data_parser import WeatherDataParser
+from ...constants import column_names
+from boiler.weater_info.interpolators.weather_data_interpolator import WeatherDataInterpolator
+from boiler.weater_info.parsers.weather_data_parser import WeatherDataParser
 from .weather_provider import WeatherProvider
 
 

@@ -1,4 +1,4 @@
-from boiler_constants import column_names
+from ...constants import column_names
 from . import soft_m_column_names
 
 DICT = {

@@ -3,8 +3,8 @@ import logging
 import pandas as pd
 from dateutil.tz import gettz
 
-from boiler_constants import circuits_id, column_names
-from boiler_parsing_utils.datetime_parsing import parse_datetime
+from ...constants import circuits_id, column_names
+from boiler.parsing_utils.datetime_parsing import parse_datetime
 from .heating_system_data_parser import HeatingSystemDataParser
 from ..constants import soft_m_circuit_id_equals
 from ..constants import soft_m_column_names_equals

@@ -1,5 +1,5 @@
 from . import soft_m_circuits_id
-from boiler_constants import circuits_id
+from ...constants import circuits_id
 
 DICT = {
     soft_m_circuits_id.WATER_CIRCUIT: circuits_id.HOT_WATER_CIRCUIT,

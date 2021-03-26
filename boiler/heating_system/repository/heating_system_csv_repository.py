@@ -3,9 +3,8 @@ import os
 
 import pandas as pd
 
-from boiler_constants import circuits_id
-from boiler_constants import column_names
-from boiler_parsing_utils.utils import filter_by_timestamp_closed
+from ...constants import circuits_id, column_names
+from boiler.parsing_utils.utils import filter_by_timestamp_closed
 from .heating_system_repository import HeatingSystemRepository
 from ..parsers.heating_system_data_parser import HeatingSystemDataParser
 from ..interpolators.heating_system_data_interpolator import HeatingSystemDataInterpolator
