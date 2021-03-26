@@ -8,7 +8,7 @@ from dateutil.tz import gettz
 
 from boiler_parsing_utils.utils import filter_by_timestamp_closed
 from boiler_constants import column_names
-from main import config
+import config
 
 
 def main():

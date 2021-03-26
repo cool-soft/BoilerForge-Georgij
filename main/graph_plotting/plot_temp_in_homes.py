@@ -8,7 +8,7 @@ from pandas.plotting import register_matplotlib_converters
 
 from boiler_parsing_utils.utils import average_values, filter_by_timestamp_closed
 from boiler_constants import column_names
-from main import config
+import config
 
 
 def main():

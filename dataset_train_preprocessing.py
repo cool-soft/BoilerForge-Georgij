@@ -1,6 +1,6 @@
 
 import numpy as np
-from main.config import TIME_TICK
+from config import TIME_TICK
 
 
 def create_sequences(x, y, window_size, delta=0):

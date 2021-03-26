@@ -2,7 +2,7 @@
 import os
 import logging
 
-from main import config
+import config
 from boiler_weater_info.interpolators.weather_data_linear_interpolator import WeatherDataLinearInterpolator
 from boiler_weater_info.parsers.soft_m_json_weather_data_parser import SoftMJSONWeatherDataParser
 

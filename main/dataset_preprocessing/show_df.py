@@ -1,6 +1,6 @@
 import pandas as pd
 
-from main import config
+import config
 
 if __name__ == '__main__':
     df_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\engelsa_37.csv.pickle"

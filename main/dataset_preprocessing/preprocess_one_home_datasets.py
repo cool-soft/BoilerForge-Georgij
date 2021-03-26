@@ -1,45 +1,18 @@
 import logging
-import os
 
-from boiler_parsing_utils.utils import filter_by_timestamp_closed
-from boiler_constants import column_names, circuits_id
+import config
+from boiler_constants import circuits_id
 from boiler_heating_system.interpolators.heating_system_data_linear_interpolator import \
     HeatingSystemDataLinearInterpolator
 from boiler_heating_system.parsers.soft_m_csv_heating_system_data_parser import SoftMCSVHeatingSystemDataParser
-from main import config
-
-
-def process_home_dataset(home_data_interpolator, home_data_parser, home_dataset_src_path, home_dataset_dst_path):
-    logging.basicConfig(level="INFO")
-
-    home_dataset_src_path = os.path.abspath(home_dataset_src_path)
-    home_dataset_dst_path = os.path.abspath(home_dataset_dst_path)
-
-    logging.info(f"Processing {home_dataset_src_path}")
-
-    with open(home_dataset_src_path, encoding="UTF-8") as f:
-        home_df = home_data_parser.parse(f)
-
-    home_heating_circuit_df = home_df[home_df[column_names.CIRCUIT_ID] == circuits_id.HEATING_CIRCUIT].copy()
-    del home_heating_circuit_df[column_names.CIRCUIT_ID]
-    home_heating_circuit_df = home_data_interpolator.interpolate_data(
-        home_heating_circuit_df,
-        start_datetime=config.START_DATETIME,
-        end_datetime=config.END_DATETIME,
-        inplace=True
-    )
-    home_heating_circuit_df = filter_by_timestamp_closed(
-        home_heating_circuit_df,
-        config.START_DATETIME,
-        config.END_DATETIME
-    )
-    logging.debug("Saving heating circuit df to {}".format(home_dataset_dst_path))
-    home_heating_circuit_df.to_pickle(home_dataset_dst_path)
+from boiler_heating_system.repository.heating_system_csv_repository import HeatingSystemCSVRepository
+from boiler_heating_system.repository.heating_system_pickle_repository import HeatingSystemPickleRepository
+from main.dataset_preprocessing.preprocess_homes_dataset import preprocess_dataset
 
 
 def main():
     logging.basicConfig(level="DEBUG")
-    dataset_name = "gaydara_32.csv"
+    dataset_name = "gaydara_32"
 
     home_data_parser = SoftMCSVHeatingSystemDataParser()
     home_data_parser.set_timestamp_parse_patterns(config.HOME_TIMESTAMP_PATTERNS)
@@ -52,17 +25,21 @@ def main():
     home_data_interpolator.set_interpolation_step(config.TIME_TICK)
     home_data_interpolator.set_columns_to_interpolate(config.HOME_COLUMNS_TO_INTERPOLATE)
 
-    logging.debug(f"Searching homes datasets in {config.HOMES_SRC_DATASETS_DIR}")
+    input_repository = HeatingSystemCSVRepository()
+    input_repository.set_parser(home_data_parser)
+    input_repository.set_interpolator(home_data_interpolator)
+    input_repository.set_storage_path(config.HOMES_SRC_DATASETS_DIR)
+    input_repository.set_circuit_id(circuits_id.HEATING_CIRCUIT)
 
-    home_dataset_src_path = f"{config.HOMES_SRC_DATASETS_DIR}\\{dataset_name}"
-    home_dataset_dst_path = f"{config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR}\\" \
-                            f"{dataset_name}{config.PREPROCESSED_DATASET_FILENAME_EXT}"
-    # noinspection PyNoneFunctionAssignment
-    process_home_dataset(
-        home_data_interpolator,
-        home_data_parser,
-        home_dataset_src_path,
-        home_dataset_dst_path
+    output_repository = HeatingSystemPickleRepository()
+    output_repository.set_storage_path(config.HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR)
+
+    preprocess_dataset(
+        input_repository,
+        output_repository,
+        dataset_name,
+        config.START_DATETIME,
+        config.END_DATETIME
     )
 
 

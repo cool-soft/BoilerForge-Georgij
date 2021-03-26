@@ -7,7 +7,7 @@ from pandas.plotting import register_matplotlib_converters
 
 from boiler_parsing_utils.utils import filter_by_timestamp_closed
 from boiler_constants import column_names
-from main import config
+import config
 
 if __name__ == '__main__':
     start_datetime = datetime.datetime(2018, 12, 1, 0, 0, 0, tzinfo=gettz(config.TIMEZONE))

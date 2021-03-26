@@ -8,14 +8,14 @@ from boiler_heating_system.parsers.soft_m_csv_heating_system_data_parser import 
 from boiler_heating_system.repository.heating_system_csv_repository import HeatingSystemCSVRepository
 from boiler_heating_system.repository.heating_system_pickle_repository import HeatingSystemPickleRepository
 from boiler_heating_system.repository.heating_system_repository import HeatingSystemRepository
-from main import config
+import config
 
 
-def convert_process_dataset(input_repository: HeatingSystemRepository,
-                            output_repository: HeatingSystemRepository,
-                            dataset_id,
-                            start_datetime,
-                            end_datetime):
+def preprocess_dataset(input_repository: HeatingSystemRepository,
+                       output_repository: HeatingSystemRepository,
+                       dataset_id,
+                       start_datetime,
+                       end_datetime):
     logging.basicConfig(level="INFO")
     logging.info(f"Processing {dataset_id}")
 
@@ -51,7 +51,7 @@ def main():
     processes = []
     for dataset_id in input_repository.list():
         process = mp.Process(
-            target=convert_process_dataset,
+            target=preprocess_dataset,
             args=(
                 input_repository,
                 output_repository,

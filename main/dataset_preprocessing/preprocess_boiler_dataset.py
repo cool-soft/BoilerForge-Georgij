@@ -1,6 +1,6 @@
 import logging
 
-from main import config
+import config
 from boiler_heating_system.interpolators.heating_system_data_linear_interpolator \
     import HeatingSystemDataLinearInterpolator
 from boiler_heating_system.parsers.soft_m_csv_heating_system_data_parser import SoftMCSVHeatingSystemDataParser

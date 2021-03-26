@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from boiler_constants import column_names
 from boiler_time_delta.corr_time_delta_calculator import CorrTimeDeltaCalculator
 from boiler_parsing_utils.utils import filter_by_timestamp_closed, average_values
-from main import config
+import config
 
 
 def main():
