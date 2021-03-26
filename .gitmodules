@@ -1,3 +1,6 @@
 [submodule "boiler_forge_utils"]
 	path = boiler_forge_utils
 	url = https://github.com/user11336/boiler_forge_utils.git
+[submodule "boiler"]
+	path = boiler
+	url = https://github.com/user11336/boiler.git
