@@ -1,11 +1,9 @@
-import datetime
-
-from dateutil.tz import gettz
 import pandas as pd
+from dateutil.tz import gettz
 
-from boiler.constants import circuits_id, column_names
+from boiler.constants import circuits_id, column_names, time_tick
 
-TIME_TICK = datetime.timedelta(minutes=3)
+TIME_TICK = time_tick.TIME_TICK
 
 BOILER_TEMP_SMOOTH_SIZE = 100
 
@@ -13,6 +11,7 @@ TIMEZONE = "Asia/Yekaterinburg"
 START_DATETIME = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
 END_DATETIME = pd.Timestamp(year=2019, month=6, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
 
+# TODO: убрать. Перевести код на использование PickleRepository
 PREPROCESSED_DATASET_FILENAME_EXT = ".pickle"
 
 #############################################################
