@@ -13,3 +13,6 @@
 [submodule "boiler_constants"]
 	path = boiler_constants
 	url = https://github.com/user11336/boiler_constants.git
+[submodule "boiler_forge_utils"]
+	path = boiler_forge_utils
+	url = https://github.com/user11336/boiler_forge_utils.git
