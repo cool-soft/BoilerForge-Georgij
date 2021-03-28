@@ -6,4 +6,4 @@
 	url = https://github.com/cool-soft/boiler.git
 [submodule "dyn_settings"]
 	path = dyn_settings
-	url = https://github.com/user11336/dyn_settings.git
+	url = https://github.com/cool-soft/dyn_settings.git
