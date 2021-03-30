@@ -24,5 +24,6 @@ def print_min_max_mean_delta(y1, y2):
     abs_delta = np.abs(y1 - y2)
     min_delta = np.min(abs_delta)
     max_delta = np.max(abs_delta)
+    # noinspection PyUnresolvedReferences
     mean_delta = np.mean(abs_delta)
     print(f"MIN: {min_delta}, MAX: {max_delta}, MEAN: {mean_delta}")
