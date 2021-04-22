@@ -4,6 +4,3 @@
 [submodule "boiler"]
 	path = boiler
 	url = https://github.com/cool-soft/boiler.git
-[submodule "dyn_settings"]
-	path = dyn_settings
-	url = https://github.com/cool-soft/dyn_settings.git
