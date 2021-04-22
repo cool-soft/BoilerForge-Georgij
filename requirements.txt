@@ -1,0 +1,2 @@
+-e git+https://github.com/cool-soft/boiler-softm.git#egg=boiler-softm
+-e git+https://github.com/cool-soft/boiler.git#egg=boiler
