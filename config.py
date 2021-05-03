@@ -1,98 +1,45 @@
 import pandas as pd
 from dateutil.tz import gettz
 
-from boiler.constants import circuits_id, column_names, time_tick
+#############################################################
 
-TIME_TICK = time_tick.TIME_TICK
-
-BOILER_TEMP_SMOOTH_SIZE = 100
-
-TIMEZONE = "Asia/Yekaterinburg"
-START_DATETIME = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
-END_DATETIME = pd.Timestamp(year=2019, month=6, day=1, hour=0, minute=0, tz=gettz(TIMEZONE))
-
-# TODO: убрать. Перевести код на использование PickleRepository
-PREPROCESSED_DATASET_FILENAME_EXT = ".pickle"
+DEFAULT_TIMEZONE = "Asia/Yekaterinburg"
+SHARED_START_TIMESTAMP = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(DEFAULT_TIMEZONE))
+SHARED_END_TIMESTAMP = pd.Timestamp(year=2019, month=6, day=1, hour=0, minute=0, tz=gettz(DEFAULT_TIMEZONE))
 
 #############################################################
 
-HOMES_SRC_DATASETS_DIR = "storage/datasets/src/homes"
-HOMES_PREPROCESSED_HEATING_CIRCUIT_DATASETS_DIR = "storage/datasets/preprocessed/homes_heating_circuit"
-HOMES_PREPROCESSED_WATER_CIRCUIT_DATASETS_DIR = "storage/datasets/preprocessed/homes_water_circuit"
+STORAGE_PATH = "../shared_storage"
+PREPROCESSED_DATASETS_PATH = f"{STORAGE_PATH}/datasets/preprocessed"
+SRC_DATASETS_PATH = f"{STORAGE_PATH}/datasets/src"
 
-HOME_DATA_TIMEZONE = "Asia/Yekaterinburg"
-HOME_TIMESTAMP_PATTERNS = (
-    r"(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})\s(?P<hours>\d{2}):(?P<minutes>\d{2}).{7}",
-    r"(?P<day>\d{2})\.(?P<month>\d{2})\.(?P<year>\d{4})\s(?P<hours>\d{1,2}):(?P<minutes>\d{2})"
-)
-HOME_REQUIRED_CIRCUITS = (
-    circuits_id.HEATING_CIRCUIT,
-)
-HOME_REQUIRED_COLUMNS = (
-    column_names.TIMESTAMP,
-    column_names.CIRCUIT_ID,
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP,
-)
-HOME_NEED_TO_FLOAT_CONVERT_COLUMNS = (
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP
-)
+#############################################################
 
-HOME_COLUMNS_TO_INTERPOLATE = (
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP
-)
+APARTMENT_HOUSE_SRC_DATASETS_DIR = f"{SRC_DATASETS_PATH}/apartment_house"
+APARTMENT_HOUSE_PREPROCESSED_DATASETS_HEATING_CIRCUIT_DIR = \
+    f"{PREPROCESSED_DATASETS_PATH}/apartment_house_heating_circuit"
+APARTMENT_HOUSE_PREPROCESSED_DATASETS_HOT_WATER_CIRCUIT_DIR = \
+    f"{PREPROCESSED_DATASETS_PATH}/apartment_house_hot_water_circuit"
+
+APARTMENT_HOUSE_DATA_TIMEZONE = DEFAULT_TIMEZONE
 
 #####################################################
 
-BOILER_SRC_DATASET_PATH = "storage/datasets/src/Boilers308_2.csv"
-BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH = "storage/datasets/preprocessed/boiler_heating_circuit.pickle"
-BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH = "storage/datasets/preprocessed/boiler_water_circuit.pickle"
+BOILER_SRC_DATASET_PATH = f"{SRC_DATASETS_PATH}/Boilers308_2.csv"
+BOILER_PREPROCESSED_HEATING_CIRCUIT_DATASET_PATH = \
+    f"{PREPROCESSED_DATASETS_PATH}/boiler_heating_circuit.pickle"
+BOILER_PREPROCESSED_WATER_CIRCUIT_DATASET_PATH = \
+    f"{PREPROCESSED_DATASETS_PATH}/boiler_water_circuit.pickle"
 
-BOILER_DATA_TIMEZONE = "Asia/Yekaterinburg"
-BOILER_TIMESTAMP_PATTERNS = (
-    r"(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})\s(?P<hours>\d{2}):(?P<minutes>\d{2}).{7}",
-    r"(?P<day>\d{2})\.(?P<month>\d{2})\.(?P<year>\d{4})\s(?P<hours>\d{1,2}):(?P<minutes>\d{2})"
-)
-BOILER_REQUIRED_CIRCUITS = (
-    circuits_id.HEATING_CIRCUIT,
-)
-BOILER_REQUIRED_COLUMNS = (
-    column_names.TIMESTAMP,
-    column_names.CIRCUIT_ID,
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP,
-    column_names.FORWARD_PIPE_COOLANT_VOLUME,
-    column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-    column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-    column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-)
-BOILER_NEED_TO_FLOAT_CONVERT_COLUMNS = (
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP,
-    column_names.FORWARD_PIPE_COOLANT_VOLUME,
-    column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-    column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-    column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-)
-
-BOILER_COLUMNS_TO_INTERPOLATE = (
-    column_names.FORWARD_PIPE_COOLANT_TEMP,
-    column_names.BACKWARD_PIPE_COOLANT_TEMP,
-    column_names.FORWARD_PIPE_COOLANT_VOLUME,
-    column_names.BACKWARD_PIPE_COOLANT_VOLUME,
-    column_names.FORWARD_PIPE_COOLANT_PRESSURE,
-    column_names.BACKWARD_PIPE_COOLANT_PRESSURE
-)
+BOILER_DATA_TIMEZONE = DEFAULT_TIMEZONE
 
 #############################################################
 
-WEATHER_DATA_TIMEZONE = "Asia/Yekaterinburg"
-WEATHER_SRC_DATASET_PATH = "storage/datasets/src/weather_data.json"
-WEATHER_PREPROCESSED_DATASET_PATH = "storage/datasets/preprocessed/weather_data.pickle"
+WEATHER_DATA_TIMEZONE = DEFAULT_TIMEZONE
+WEATHER_SRC_DATASET_PATH = f"{SRC_DATASETS_PATH}/weather.json"
+WEATHER_PREPROCESSED_DATASET_PATH = f"{PREPROCESSED_DATASETS_PATH}/weather.pickle"
 
-HOMES_TIME_DELTAS_PATH = "storage/homes_time_delta.csv"
-TEMP_CORRELATION_TABLE_PATH = "storage/optimized_temp_table.pickle"
+HOMES_TIME_DELTAS_PATH = f"{STORAGE_PATH}/heating_obj_time_delta.csv"
+TEMP_CORRELATION_TABLE_PATH = f"{STORAGE_PATH}/temp_correlation_table.pickle"
 
-TEMP_GRAPH_PATH = "storage/temp_graph.csv"
+TEMP_GRAPH_PATH = f"{STORAGE_PATH}/temp_graph.csv"
