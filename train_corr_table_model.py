@@ -82,7 +82,7 @@ def main():
 
     corr_table: pd.DataFrame = get_corr_table_for_models(trained_models)
     corr_table.to_csv(config.TEMP_CORRELATION_TABLE_PATH+".csv", index=False, sep=";")
-    corr_table.to_pickle(config.TEMP_CORRELATION_TABLE_PATH, sep=";")
+    corr_table.to_pickle(config.TEMP_CORRELATION_TABLE_PATH)
 
 
 def get_timedelta_df(filepath):
