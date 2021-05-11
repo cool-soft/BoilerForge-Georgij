@@ -12,8 +12,8 @@ import numpy as np
 from boiler.constants import column_names
 from boiler.heating_obj.io.sync_heating_obj_file_loader import SyncHeatingObjFileLoader
 from boiler.heating_obj.io.sync_heating_obj_pickle_reader import SyncHeatingObjPickleReader
-from boiler.time_delta.io.sync_timedelta_csv_reader import SyncTimedeltaCSVReader
-from boiler.time_delta.io.sync_timedelta_file_loader import SyncTimedeltaFileLoader
+from boiler.timedelta.io.sync_timedelta_csv_reader import SyncTimedeltaCSVReader
+from boiler.timedelta.io.sync_timedelta_file_loader import SyncTimedeltaFileLoader
 from boiler_softm.constants import time_tick
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import ModelCheckpoint
