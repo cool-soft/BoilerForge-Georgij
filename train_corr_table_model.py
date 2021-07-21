@@ -25,10 +25,10 @@ import config
 MAX_TRAIN_EPOCH = 400
 BATCH_SIZE = 80000
 
-START_TIMESTAMP = pd.Timestamp(year=2018, month=12, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
-END_TIMESTAMP = pd.Timestamp(year=2019, month=4, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
-VAL_START_TIMESTAMP = pd.Timestamp(year=2019, month=4, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
-VAL_END_TIMESTAMP = pd.Timestamp(year=2019, month=5, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
+START_TIMESTAMP = pd.Timestamp(year=2021, month=4, day=12, hour=22, minute=30, tz=gettz(config.DEFAULT_TIMEZONE))
+END_TIMESTAMP = pd.Timestamp(year=2021, month=6, day=26, hour=1, minute=36, tz=gettz(config.DEFAULT_TIMEZONE))
+VAL_START_TIMESTAMP = pd.Timestamp(year=2021, month=5, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
+VAL_END_TIMESTAMP = pd.Timestamp(year=2021, month=6, day=1, hour=0, minute=0, tz=gettz(config.DEFAULT_TIMEZONE))
 
 
 def main():
@@ -178,6 +178,19 @@ def get_corr_table_for_models(trained_models):
         y = y.reshape(len(y))
         corr_table[model_name] = y
     return pd.DataFrame(corr_table)
+
+
+def get_times(filepath, start_timestamp, end_timestamp):
+    logging.debug(f"Loading times {start_timestamp}:{end_timestamp} from {filepath}")
+
+    reader = SyncHeatingObjPickleReader()
+    dataset_loader = SyncHeatingObjFileLoader(
+        reader=reader,
+        filepath=filepath
+    )
+    df = dataset_loader.load_heating_obj(start_timestamp, end_timestamp)
+    times = df[column_names.TIMESTAMP].to_numpy()
+    return times
 
 
 if __name__ == '__main__':

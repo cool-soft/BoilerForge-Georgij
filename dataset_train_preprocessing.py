@@ -1,6 +1,6 @@
 
 import numpy as np
-from config import TIME_TICK
+from boiler_softm.constants.time_tick import TIME_TICK
 
 
 def create_sequences(x, y, window_size, delta=0):
