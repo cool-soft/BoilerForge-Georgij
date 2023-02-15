@@ -1,4 +1,4 @@
--e git+https://github.com/cool-soft/boiler-softm.git#egg=boiler-softm
+-e git+https://github.com/cool-soft/boiler-softm-lysva.git#egg=boiler-softm-lysva
 -e git+https://github.com/cool-soft/boiler.git#egg=boiler
 
 pandas~=1.2.4
