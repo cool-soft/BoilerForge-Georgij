@@ -1,8 +1,9 @@
 -e git+https://github.com/cool-soft/boiler-softm-lysva.git#egg=boiler-softm-lysva
 -e git+https://github.com/cool-soft/boiler.git#egg=boiler
 
-pandas~=1.2.4
+pandas==1.2.4
 python-dateutil~=2.8.1
 
 numpy~=1.18.5
 tensorflow~=2.3.0
+keras~=2.4.3
